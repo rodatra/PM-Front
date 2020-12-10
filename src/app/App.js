@@ -22,6 +22,7 @@ import PrivateRoute from '../common/PrivateRoute';
 import { Layout, notification } from 'antd';
 import Activated from "../common/Activated";
 import QRCode from "../common/QRCode";
+import Validation from "../user/signup/Validation";
 const { Content } = Layout;
 
 class App extends Component {
@@ -113,11 +114,21 @@ class App extends Component {
                 </Route>
                 <Route path="/login" 
                   render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
+
                 <Route path="/signup" component={Signup}></Route>
+
+                <Route path="/activated/:message"
+                  render={(props) => <Activated message={props.params.message} {...props} />}></Route>
+
+                <Route path="/registrationConfirm/:token"
+                       render={(props) => <Validation token={props.params.token} {...props} />}></Route>
+
                 <Route path="/users/:username" 
                   render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>
                 </Route>
+
                 <PrivateRoute authenticated={this.state.isAuthenticated} path="/poll/new" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute>
+
                 <Route component={NotFound}></Route>
               </Switch>
             </div>

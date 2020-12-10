@@ -59,7 +59,7 @@ export function login(loginRequest) {
 
 export function signup(signupRequest) {
     return request({
-        url: API_BASE_URL + "/auth/signup",
+        url: API_BASE_URL + "/user/registration",
         method: 'POST',
         body: JSON.stringify(signupRequest)
     });
@@ -94,6 +94,13 @@ export function getCurrentUser() {
 export function getUserProfile(username) {
     return request({
         url: API_BASE_URL + "/users/" + username,
+        method: 'GET'
+    });
+}
+
+export function validateRegToken(token) {
+    return request({
+        url: API_BASE_URL + "/validateRegToken/" + token,
         method: 'GET'
     });
 }
