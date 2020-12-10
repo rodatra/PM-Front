@@ -20,6 +20,8 @@ import LoadingIndicator from '../common/LoadingIndicator';
 import PrivateRoute from '../common/PrivateRoute';
 
 import { Layout, notification } from 'antd';
+import Activated from "../common/Activated";
+import QRCode from "../common/QRCode";
 const { Content } = Layout;
 
 class App extends Component {
@@ -28,7 +30,8 @@ class App extends Component {
     this.state = {
       currentUser: null,
       isAuthenticated: false,
-      isLoading: false
+      isLoading: false,
+      check: true
     }
     this.handleLogout = this.handleLogout.bind(this);
     this.loadCurrentUser = this.loadCurrentUser.bind(this);
@@ -89,6 +92,9 @@ class App extends Component {
   }
 
   render() {
+    // if(this.state.check) {
+    //   return <QRCode message="Your account is successfully activated!" />
+    // }
     if(this.state.isLoading) {
       return <LoadingIndicator />
     }
