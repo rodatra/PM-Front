@@ -6,6 +6,7 @@
     "antd": "^3.26.20",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "antd-password-input-strength": "^1.1.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.5"
   },

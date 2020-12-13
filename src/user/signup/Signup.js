@@ -9,16 +9,14 @@ import {
     PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
 } from '../../constants';
 
-import { Form, Input, Button, notification } from 'antd';
+import {Form, Input, Button, notification, Checkbox} from 'antd';
+import {PasswordInput} from "antd-password-input-strength";
 const FormItem = Form.Item;
 
 class Signup extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: {
-                value: ''
-            },
             username: {
                 value: ''
             },
@@ -27,8 +25,12 @@ class Signup extends Component {
             },
             password: {
                 value: ''
-            }
-        }
+            },
+            matchingPassword: {
+                value: ''
+            },
+            enableTwoStep: false
+        };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.validateUsernameAvailability = this.validateUsernameAvailability.bind(this);
@@ -53,10 +55,10 @@ class Signup extends Component {
         event.preventDefault();
     
         const signupRequest = {
-            name: this.state.name.value,
-            email: this.state.email.value,
             username: this.state.username.value,
-            password: this.state.password.value
+            email: this.state.email.value,
+            password: this.state.password.value,
+            twoStep: this.state.enableTwoStep
         };
         signup(signupRequest)
         .then(response => {
@@ -87,18 +89,6 @@ class Signup extends Component {
                 <h1 className="page-title">Sign Up</h1>
                 <div className="signup-content">
                     <Form onSubmit={this.handleSubmit} className="signup-form">
-                        <FormItem 
-                            label="Full Name"
-                            validateStatus={this.state.name.validateStatus}
-                            help={this.state.name.errorMsg}>
-                            <Input 
-                                size="large"
-                                name="name"
-                                autoComplete="off"
-                                placeholder="Your full name"
-                                value={this.state.name.value} 
-                                onChange={(event) => this.handleInputChange(event, this.validateName)} />    
-                        </FormItem>
                         <FormItem label="Username"
                             hasFeedback
                             validateStatus={this.state.username.validateStatus}
@@ -127,18 +117,25 @@ class Signup extends Component {
                                 onBlur={this.validateEmailAvailability}
                                 onChange={(event) => this.handleInputChange(event, this.validateEmail)} />    
                         </FormItem>
-                        <FormItem 
-                            label="Password"
-                            validateStatus={this.state.password.validateStatus}
-                            help={this.state.password.errorMsg}>
-                            <Input 
+                        <FormItem label="Password">
+                            <PasswordInput
+                                 />
+                        </FormItem >
+                        <FormItem>
+                            <Checkbox onChange={this.onTwoStep}>Enable Two Step Verification</Checkbox>
+                        </FormItem>
+                        <FormItem
+                            label="Confirm Password"
+                            validateStatus={this.state.matchingPassword.validateStatus}
+                            help={this.state.matchingPassword.errorMsg}>
+                            <Input
                                 size="large"
-                                name="password" 
+                                name="matchingPassword"
                                 type="password"
                                 autoComplete="off"
-                                placeholder="A password between 6 to 20 characters" 
-                                value={this.state.password.value} 
-                                onChange={(event) => this.handleInputChange(event, this.validatePassword)} />    
+                                placeholder="Reenter Plz"
+                                value={this.state.matchingPassword.value}
+                                onChange={(event) => this.handleInputChange(event, this.validateMatchingPassword)} />
                         </FormItem>
                         <FormItem>
                             <Button type="primary" 
@@ -146,7 +143,7 @@ class Signup extends Component {
                                 size="large" 
                                 className="signup-form-button"
                                 disabled={this.isFormInvalid()}>Sign up</Button>
-                            Already registed? <Link to="/login">Login now!</Link>
+                            Already registered? <Link to="/login">Login now!</Link>
                         </FormItem>
                     </Form>
                 </div>
@@ -155,25 +152,6 @@ class Signup extends Component {
     }
 
     // Validation Functions
-
-    validateName = (name) => {
-        if(name.length < NAME_MIN_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Name is too short (Minimum ${NAME_MIN_LENGTH} characters needed.)`
-            }
-        } else if (name.length > NAME_MAX_LENGTH) {
-            return {
-                validationStatus: 'error',
-                errorMsg: `Name is too long (Maximum ${NAME_MAX_LENGTH} characters allowed.)`
-            }
-        } else {
-            return {
-                validateStatus: 'success',
-                errorMsg: null,
-              };            
-        }
-    }
 
     validateEmail = (email) => {
         if(!email) {
@@ -331,25 +309,23 @@ class Signup extends Component {
         });
     }
 
-    validatePassword = (password) => {
-        if(password.length < PASSWORD_MIN_LENGTH) {
+    validateMatchingPassword = (password) => {
+        if(password !== this.state.matchingPassword) {
             return {
                 validateStatus: 'error',
-                errorMsg: `Password is too short (Minimum ${PASSWORD_MIN_LENGTH} characters needed.)`
-            }
-        } else if (password.length > PASSWORD_MAX_LENGTH) {
-            return {
-                validationStatus: 'error',
-                errorMsg: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)`
+                errorMsg: `Password not matching`
             }
         } else {
             return {
                 validateStatus: 'success',
                 errorMsg: null,
-            };            
+            };
         }
     }
 
+    onTwoStep = () => {
+
+    }
 }
 
 export default Signup;
