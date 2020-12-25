@@ -38,6 +38,12 @@ class Signup extends Component {
         this.isFormInvalid = this.isFormInvalid.bind(this);
     }
 
+    onTwoStep = () => {
+        this.setState({
+            enableTwoStep: true
+        })
+    };
+
     handleInputChange(event, validationFun) {
         const target = event.target;
         const inputName = target.name;        
@@ -226,7 +232,7 @@ class Signup extends Component {
 
         checkUsernameAvailability(usernameValue)
         .then(response => {
-            if(response.available) {
+            if(response.data) {
                 this.setState({
                     username: {
                         value: usernameValue,
@@ -321,10 +327,6 @@ class Signup extends Component {
                 errorMsg: null,
             };
         }
-    }
-
-    onTwoStep = () => {
-
     }
 }
 
