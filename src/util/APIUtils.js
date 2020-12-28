@@ -65,6 +65,31 @@ export function signup(signupRequest) {
     });
 }
 
+export async function getResponse(params) {
+    return request(`/debugHandler/requestHandling`, {
+        method: "POST",
+        body: {
+            url: params[0],
+            method: params[1],
+            header: params[2],
+            param: params[3],
+        }
+    });
+}
+
+export async function postResponse(params) {
+    return request(`/debugHandler/requestHandling`, {
+        method: "POST",
+        body: {
+            url: params[0],
+            method: params[1],
+            header: params[2],
+            param: params[3],
+            postBody: params[4],
+        }
+    });
+}
+
 export function checkUsernameAvailability(username) {
     return request({
         url: API_BASE_URL + "/user/checkUsernameAvailability?username=" + username,
