@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import { signup, checkUsernameAvailability, checkEmailAvailability } from '../../util/APIUtils';
 import './Signup.css';
 import { Link } from 'react-router-dom';
+
 import { 
     NAME_MIN_LENGTH, NAME_MAX_LENGTH, 
     USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH,
@@ -32,6 +33,7 @@ class Signup extends Component {
             enableTwoStep: false
         };
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.onPassChange = this.onPassChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.validateUsernameAvailability = this.validateUsernameAvailability.bind(this);
         this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
@@ -82,8 +84,7 @@ class Signup extends Component {
     }
 
     isFormInvalid() {
-        return !(this.state.name.validateStatus === 'success' &&
-            this.state.username.validateStatus === 'success' &&
+        return !(this.state.username.validateStatus === 'success' &&
             this.state.email.validateStatus === 'success' &&
             this.state.password.validateStatus === 'success'
         );
@@ -125,11 +126,10 @@ class Signup extends Component {
                         </FormItem>
                         <FormItem label="Password">
                             <PasswordInput
-                                 />
+                                name="password"
+                                onChange={(event) => this.handleInputChange(event, this.validatePassword)}
+                            />
                         </FormItem >
-                        <FormItem>
-                            <Checkbox onChange={this.onTwoStep}>Enable Two Step Verification</Checkbox>
-                        </FormItem>
                         <FormItem
                             label="Confirm Password"
                             validateStatus={this.state.matchingPassword.validateStatus}
@@ -142,6 +142,9 @@ class Signup extends Component {
                                 placeholder="Reenter Plz"
                                 value={this.state.matchingPassword.value}
                                 onChange={(event) => this.handleInputChange(event, this.validateMatchingPassword)} />
+                        </FormItem>
+                        <FormItem>
+                            <Checkbox onChange={this.onTwoStep}>Enable Two Step Verification</Checkbox>
                         </FormItem>
                         <FormItem>
                             <Button type="primary" 
@@ -315,11 +318,33 @@ class Signup extends Component {
         });
     }
 
-    validateMatchingPassword = (password) => {
-        if(password !== this.state.matchingPassword) {
+    onPassChange(event, password){
+        this.setState({
+            password: {
+                value: password,
+            }
+        })
+    }
+
+    validatePassword = (password) => {
+        if(password.length > PASSWORD_MAX_LENGTH) {
             return {
                 validateStatus: 'error',
-                errorMsg: `Password not matching`
+                errorMsg: `Too Long`
+            }
+        } else if (password.length < PASSWORD_MIN_LENGTH) {
+            return {
+                validateStatus: 'error',
+                errorMsg: `Too Short`
+            };
+        }
+    }
+
+    validateMatchingPassword = (password) => {
+        if(password !== this.state.password.value) {
+            return {
+                validateStatus: 'error',
+                errorMsg: `Passwords do not match`
             }
         } else {
             return {
