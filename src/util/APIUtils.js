@@ -57,14 +57,6 @@ export function login(loginRequest) {
     });
 }
 
-export function signup(signupRequest) {
-    return request({
-        url: API_BASE_URL + "/user/registration",
-        method: 'POST',
-        body: JSON.stringify(signupRequest)
-    });
-}
-
 export async function getResponse(params) {
     return request(`/debugHandler/requestHandling`, {
         method: "POST",
@@ -87,6 +79,14 @@ export async function postResponse(params) {
             param: params[3],
             postBody: params[4],
         }
+    });
+}
+
+export function signup(signupRequest) {
+    return request({
+        url: API_BASE_URL + "/user/registration",
+        method: 'POST',
+        body: JSON.stringify(signupRequest)
     });
 }
 

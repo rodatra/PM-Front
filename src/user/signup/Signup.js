@@ -3,8 +3,7 @@ import { signup, checkUsernameAvailability, checkEmailAvailability } from '../..
 import './Signup.css';
 import { Link } from 'react-router-dom';
 
-import { 
-    NAME_MIN_LENGTH, NAME_MAX_LENGTH, 
+import {
     USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH,
     EMAIL_MAX_LENGTH,
     PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
@@ -70,11 +69,29 @@ class Signup extends Component {
         };
         signup(signupRequest)
         .then(response => {
-            notification.success({
-                message: 'You are successfully registered',
-                description: "But before your exploration, plz head to your mail box to activate your account",
-            });
-            this.props.history.push("/login");
+            if (response.code === 1){
+                notification.success({
+                    message: 'You are successfully registered',
+                    description: "But before your exploration, plz head to your mail box to activate your account",
+                });
+                this.props.history.push("/login");
+            }else{
+                let temp = response.msg;
+                let msg = temp.match(/Password\s\w.*\./)[0].replaceAll(',', '\t');
+                const pass = this.state.password.value;
+                this.setState({
+                    password:{
+                        validateStatus: 'error',
+                        errorMsg: msg,
+                        value: pass
+                    }
+                })
+                notification.error({
+                    message: 'Registration Failed',
+                    description: '',
+                });
+            }
+
         }).catch(error => {
             notification.error({
                 message: 'Something went wrong',
@@ -124,7 +141,10 @@ class Signup extends Component {
                                 onBlur={this.validateEmailAvailability}
                                 onChange={(event) => this.handleInputChange(event, this.validateEmail)} />    
                         </FormItem>
-                        <FormItem label="Password">
+                        <FormItem label="Password"
+                                  // hasFeedback
+                                  validateStatus={this.state.password.validateStatus}
+                                  help={this.state.password.errorMsg}>
                             <PasswordInput
                                 name="password"
                                 onChange={(event) => this.handleInputChange(event, this.validatePassword)}
@@ -289,7 +309,7 @@ class Signup extends Component {
 
         checkEmailAvailability(emailValue)
         .then(response => {
-            if(response.available) {
+            if(response.data && response.data === true) {
                 this.setState({
                     email: {
                         value: emailValue,
@@ -302,7 +322,7 @@ class Signup extends Component {
                     email: {
                         value: emailValue,
                         validateStatus: 'error',
-                        errorMsg: 'This Email is already registered'
+                        errorMsg: 'Email already registered'
                     }
                 });
             }
@@ -336,6 +356,11 @@ class Signup extends Component {
             return {
                 validateStatus: 'error',
                 errorMsg: `Too Short`
+            };
+        }else{
+            return {
+                validateStatus: 'success',
+                errorMsg: `Validation Passed`
             };
         }
     }
