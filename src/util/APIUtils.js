@@ -125,7 +125,7 @@ export function getUserProfile(username) {
 
 export function validateRegToken(token) {
     return request({
-        url: API_BASE_URL + "/validateRegToken/" + token,
+        url: API_BASE_URL + "/validateRegToken?token=" + token,
         method: 'GET'
     });
 }

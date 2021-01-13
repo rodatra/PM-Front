@@ -1,15 +1,15 @@
 import {Button, Col, Input, message, notification, Radio, Row, Select, Table, Tabs, Tag, Tooltip} from 'antd';
 import {connect} from "dva";
 import React, {PureComponent} from 'react';
-import {MonacoEditor} from "../../../components/MonacoEditor/MonacoEditor";
 import {EditableCell, EditableFormRow} from './EditableCell'
 import {PostFormBody} from './PostFormBody'
 import {HeaderForm} from './HeaderForm'
 import {Blank} from './Blank'
 import styles from './ApiShow.less';
-import copy from "copy-to-clipboard";
 import {getResponse, postResponse, signup} from "../util/APIUtils";
-
+import {MonacoEditor} from "../util/MonacoEditor/MonacoEditor";
+import {withRouter} from "react-router-dom";
+const { Option } = Select;
 const {TabPane} = Tabs;
 
 class ApiShow extends PureComponent {
@@ -416,8 +416,4 @@ class ApiShow extends PureComponent {
     }
 }
 
-function mapStateToProps(state) {
-    return {}
-}
-
-export default connect(mapStateToProps)(ApiShow);
+export default withRouter(ApiShow);

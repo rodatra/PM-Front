@@ -108,23 +108,20 @@ class App extends Component {
           <Content className="app-content">
             <div className="container">
               <Switch>      
-                <Route exact path="/" 
-                  render={(props) => <PollList isAuthenticated={this.state.isAuthenticated} 
-                      currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}>
-                </Route>
+                {/*<Route exact path="/" */}
+                {/*  render={(props) => <PollList isAuthenticated={this.state.isAuthenticated} */}
+                {/*      currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}>*/}
+                {/*</Route>*/}
                 <Route path="/login" 
                   render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
 
                 <Route path="/signup" component={Signup}></Route>
 
                 <Route path="/activated/:message"
-                  render={(props) => <Activated message={props.params.message} {...props} />}></Route>
+    render={(props) => <Activated message={props.match.params.message} {...props} />}/>
 
                 <Route path="/registrationConfirm/:token"
-                       render={(props) => <Validation token={props.params.token} {...props} />}></Route>
-
-                <Route path="/registrationConfirm/:token"
-                       render={(props) => <Validation token={props.params.token} {...props} />}></Route>
+                       render={(props) => <Validation token={props.match.params.token} {...props} />}></Route>
 
                 <Route path="/users/:username" 
                   render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>

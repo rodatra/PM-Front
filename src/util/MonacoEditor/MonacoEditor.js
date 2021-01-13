@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import * as monaco from 'monaco-editor';
-import {HiveSQLCompletionItemProvider, HiveSQLMonarchLanguage, SQLStandaloneThemeData, OdpsSQLMonarchLanguage, OdpsSQLCompletionItemProvider} from "./SQLMonarchLanguage";
-import sqlFormatter from "../../utils/sqlFormatter/index";
 import './MonacoEditor.less';
 
 function noop() {
@@ -77,91 +75,6 @@ export class MonacoEditor extends Component {
         this.props.onChange(value, event);
       }
     });
-  }
-
-  //注册hiveSql语言
-  registerHiveSqlLanguage() {
-      const languageId = "hiveSql";
-      //注册theme
-      monaco.editor.defineTheme(languageId, SQLStandaloneThemeData);
-      // 注册新语语言
-      monaco.languages.register({id: languageId});
-      // hive注册关键字
-      monaco.languages.setMonarchTokensProvider(languageId, HiveSQLMonarchLanguage);
-      // hive注册提示补充
-      monaco.languages.registerCompletionItemProvider(languageId, HiveSQLCompletionItemProvider);
-      // 格式化
-      monaco.languages.registerDocumentRangeFormattingEditProvider(languageId, {
-        provideDocumentRangeFormattingEdits: function (model, range, options, token) {
-          return [
-            {
-              range: {
-                startLineNumber: range.startLineNumber,
-                startColumn: range.startColumn,
-                endLineNumber: range.endLineNumber,
-                endColumn: range.endColumn,
-              },
-              text: sqlFormatter.format(model.getValueInRange(range, monaco.editor.EndOfLinePreference.LF), {
-                indent: "    ",
-              }),
-            }
-          ];
-        }
-      });
-      //配置
-      monaco.languages.setLanguageConfiguration(languageId, {
-        comments: {
-          lineComment: '--'
-        },
-        surroundingPairs:[{"open":"{","close":"}"},{"open":"(","close":")"}],
-        autoClosingPairs:[{"open":"{","close":"}"},{"open":"(","close":")"}],
-        brackets:[["{","}"],["(",")"]]
-      });
-  }
-
-  //注册odpsSql语言
-  registerOdpsSqlLanguage() {
-    const languageId = "odpsSql";
-    //注册theme
-    monaco.editor.defineTheme(languageId, SQLStandaloneThemeData);
-    // 注册新语语言
-    monaco.languages.register({id: languageId});
-    monaco.languages.setMonarchTokensProvider(languageId, OdpsSQLMonarchLanguage);
-    // odps注册提示补充
-    monaco.languages.registerCompletionItemProvider(languageId, OdpsSQLCompletionItemProvider);
-    // 格式化
-    monaco.languages.registerDocumentRangeFormattingEditProvider(languageId, {
-      provideDocumentRangeFormattingEdits: function (model, range, options, token) {
-        return [
-          {
-            range: {
-              startLineNumber: range.startLineNumber,
-              startColumn: range.startColumn,
-              endLineNumber: range.endLineNumber,
-              endColumn: range.endColumn,
-            },
-            text: sqlFormatter.format(model.getValueInRange(range, monaco.editor.EndOfLinePreference.LF), {
-              indent: "    ",
-            }),
-          }
-        ];
-      }
-    });
-    //配置
-    monaco.languages.setLanguageConfiguration(languageId, {
-      comments: {
-        lineComment: '--'
-      },
-      surroundingPairs:[{"open":"{","close":"}"},{"open":"(","close":")"},{"open":"[","close":"]"}],
-      autoClosingPairs:[{"open":"{","close":"}"},{"open":"(","close":")"},{"open":"[","close":"]"}],
-      brackets:[["{","}"],["(",")"],["[","]"]]
-    });
-    //
-    // monaco.languages.registerSelectionRangeProvider(languageId, {
-    //   provideSelectionRanges: function (model, positions, token) {
-    //
-    //   }
-    // });
   }
 
   initMonaco() {

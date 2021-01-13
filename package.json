@@ -20,6 +20,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "ant-design-pro": "^2.3.2",
     "babel-plugin-import": "^1.6.5",
     "monaco-editor": "^0.21.2",
     "react-app-rewire-less": "^2.1.0",

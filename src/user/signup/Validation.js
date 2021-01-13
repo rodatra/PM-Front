@@ -16,9 +16,9 @@ class Validation extends Component {
         this.checkTokenValidity = this.checkTokenValidity.bind(this);
     }
 
-    checkTokenValidity(username) {
+    checkTokenValidity(token) {
 
-        validateRegToken(username)
+        validateRegToken(token)
         .then(response => {
             if (response.code === 1) {
                 message.success(response.data);
