@@ -17,13 +17,13 @@ class Validation extends Component {
     }
 
     checkTokenValidity(token) {
-
         validateRegToken(token)
         .then(response => {
             if (response.code === 1) {
-                message.success(response.data);
+                this.props.history.push(`/activated/${response.data}`);
+            }else{
+                this.props.history.push(`/activateFailed/${response.msg}`);
             }
-            this.props.history.push(`/activated/${response.data}`);
         }).catch(error => {
 
         });        

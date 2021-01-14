@@ -23,6 +23,7 @@ import { Layout, notification } from 'antd';
 import Activated from "../common/Activated";
 import QRCode from "../common/QRCode";
 import Validation from "../user/signup/Validation";
+import ActivateFailed from "../common/ActivateFailed";
 const { Content } = Layout;
 
 class App extends Component {
@@ -119,6 +120,10 @@ class App extends Component {
 
                 <Route path="/activated/:message"
     render={(props) => <Activated message={props.match.params.message} {...props} />}/>
+
+                <Route path="/activateFailed/:message"
+                       render={(props) => <ActivateFailed message={props.match.params.message} {...props} />}/>
+
 
                 <Route path="/registrationConfirm/:token"
                        render={(props) => <Validation token={props.match.params.token} {...props} />}></Route>
