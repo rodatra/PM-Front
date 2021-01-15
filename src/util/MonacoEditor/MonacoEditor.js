@@ -66,12 +66,6 @@ export class MonacoEditor extends Component {
       this.__current_value = value;
       // Only invoking when user input changed
       if (!this.__prevent_trigger_change_event) {
-        if (event.changes[0].text === '.') {
-          const word = editor.getModel().getWordUntilPosition({
-            lineNumber: event.changes[0].range.startLineNumber,
-            column: event.changes[0].range.endColumn,
-          }).word;
-        }
         this.props.onChange(value, event);
       }
     });
@@ -84,31 +78,12 @@ export class MonacoEditor extends Component {
       // Before initializing monaco editor
       this.editorWillMount();
       //注册自定义语言
-      const languages = monaco.languages.getLanguages();
-      let isHiveSqlRegister = false;
-      let isOdpsSqlRegister = false;
-      languages.map((item) => {
-        if (item.id === "hiveSql") {
-          isHiveSqlRegister = true;
-        }
-        if (item.id === "odpsSql") {
-          isOdpsSqlRegister = true;
-        }
-      });
-      if (!isHiveSqlRegister) {
-        this.registerHiveSqlLanguage();
-      }
-      if (!isOdpsSqlRegister) {
-        this.registerOdpsSqlLanguage()
-      }
       this.editor = monaco.editor.create(this.containerElement, {
         value,
         language,
         theme,
         ...options,
       });
-      // After initializing monaco editor
-      this.editorDidMount(this.editor);
     }
   }
 

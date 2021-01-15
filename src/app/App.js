@@ -24,6 +24,7 @@ import Activated from "../common/Activated";
 import QRCode from "../common/QRCode";
 import Validation from "../user/signup/Validation";
 import ActivateFailed from "../common/ActivateFailed";
+import ApiShow from "../debug/ApiShow";
 const { Content } = Layout;
 
 class App extends Component {
@@ -109,10 +110,9 @@ class App extends Component {
           <Content className="app-content">
             <div className="container">
               <Switch>      
-                {/*<Route exact path="/" */}
-                {/*  render={(props) => <PollList isAuthenticated={this.state.isAuthenticated} */}
-                {/*      currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}>*/}
-                {/*</Route>*/}
+                <Route exact path="/"
+                  render={(props) => <ApiShow {...props} />}>
+                </Route>
                 <Route path="/login" 
                   render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
 
@@ -124,7 +124,6 @@ class App extends Component {
                 <Route path="/activateFailed/:message"
                        render={(props) => <ActivateFailed message={props.match.params.message} {...props} />}/>
 
-
                 <Route path="/registrationConfirm/:token"
                        render={(props) => <Validation token={props.match.params.token} {...props} />}></Route>
 
@@ -133,6 +132,7 @@ class App extends Component {
                 </Route>
 
                 <PrivateRoute authenticated={this.state.isAuthenticated} path="/poll/new" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute>
+                <PrivateRoute path="/debugger" component={ApiShow}></PrivateRoute>
 
                 <Route component={NotFound}></Route>
               </Switch>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { login } from '../../util/APIUtils';
 import './Login.css';
 import { Link } from 'react-router-dom';
-import { ACCESS_TOKEN } from '../../constants';
+import {ACCESS_TOKEN, API_BASE_URL} from '../../constants';
 
 import { Form, Input, Button, Icon, notification } from 'antd';
 const FormItem = Form.Item;
@@ -27,14 +27,24 @@ class LoginForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    async doLogin(values) {
+        const response = await fetch(API_BASE_URL + "/login", {
+            mode: 'no-cors',
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            // body: JSON.stringify(data)
+            body: new URLSearchParams("username=test@test.com&password=test")
+        });
+    }
+
     handleSubmit(event) {
         event.preventDefault();   
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const loginRequest = Object.assign({}, values);
-                login(loginRequest)
+                this.doLogin(values)
                 .then(response => {
-                    localStorage.setItem(ACCESS_TOKEN, response.accessToken);
                     this.props.onLogin();
                 }).catch(error => {
                     if(error.status === 401) {
@@ -58,14 +68,14 @@ class LoginForm extends Component {
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <FormItem>
-                    {getFieldDecorator('usernameOrEmail', {
-                        rules: [{ required: true, message: 'Please input your username or email!' }],
+                    {getFieldDecorator('email', {
+                        rules: [{ required: true, message: 'Please input your email!' }],
                     })(
                     <Input 
                         prefix={<Icon type="user" />}
                         size="large"
-                        name="usernameOrEmail" 
-                        placeholder="Username or Email" />    
+                        name="email"
+                        placeholder="Email" />
                     )}
                 </FormItem>
                 <FormItem>

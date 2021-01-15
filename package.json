@@ -25,5 +25,6 @@
     "monaco-editor": "^0.21.2",
     "react-app-rewire-less": "^2.1.0",
     "react-app-rewired": "^1.4.1"
-  }
+  },
+  "proxy": "http://localhost:8081"
 }

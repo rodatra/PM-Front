@@ -4,10 +4,6 @@ const request = (options) => {
     const headers = new Headers({
         'Content-Type': 'application/json',
     })
-    
-    if(localStorage.getItem(ACCESS_TOKEN)) {
-        headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
-    }
 
     const defaults = {headers: headers};
     options = Object.assign({}, defaults, options);
@@ -51,7 +47,7 @@ export function castVote(voteData) {
 
 export function login(loginRequest) {
     return request({
-        url: API_BASE_URL + "/auth/signin",
+        url: API_BASE_URL + "/login",
         method: 'POST',
         body: JSON.stringify(loginRequest)
     });
@@ -106,9 +102,6 @@ export function checkEmailAvailability(email) {
 
 
 export function getCurrentUser() {
-    if(!localStorage.getItem(ACCESS_TOKEN)) {
-        return Promise.reject("No access token set.");
-    }
 
     return request({
         url: API_BASE_URL + "/user/me",
