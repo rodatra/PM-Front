@@ -1,9 +1,14 @@
 import { API_BASE_URL, POLL_LIST_SIZE, ACCESS_TOKEN } from '../constants';
 
 const request = (options) => {
+
     const headers = new Headers({
         'Content-Type': 'application/json',
     })
+
+    if(localStorage.getItem(ACCESS_TOKEN)) {
+        headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+    }
 
     const defaults = {headers: headers};
     options = Object.assign({}, defaults, options);
@@ -46,9 +51,12 @@ export function castVote(voteData) {
 }
 
 export function login(loginRequest) {
+    // let param = "username=" + loginRequest.username + "&password=" + loginRequest.password;
     return request({
-        url: API_BASE_URL + "/login",
+        // mode: 'no-cors',
+        url: API_BASE_URL + "/auth/signin",
         method: 'POST',
+        // body: new URLSearchParams(param)
         body: JSON.stringify(loginRequest)
     });
 }
@@ -102,6 +110,10 @@ export function checkEmailAvailability(email) {
 
 
 export function getCurrentUser() {
+
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
 
     return request({
         url: API_BASE_URL + "/user/me",

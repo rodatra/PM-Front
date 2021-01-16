@@ -27,36 +27,27 @@ class LoginForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    async doLogin(values) {
-        const response = await fetch(API_BASE_URL + "/login", {
-            mode: 'no-cors',
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            // body: JSON.stringify(data)
-            body: new URLSearchParams("username=test@test.com&password=test")
-        });
-    }
-
     handleSubmit(event) {
         event.preventDefault();   
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                this.doLogin(values)
+                // this.doLogin(values)
+                login(values)
                 .then(response => {
+                    localStorage.setItem(ACCESS_TOKEN, response.data.accessToken);
                     this.props.onLogin();
                 }).catch(error => {
                     if(error.status === 401) {
                         notification.error({
                             message: 'Polling App',
                             description: 'Your Username or Password is incorrect. Please try again!'
-                        });                    
+                        });
                     } else {
                         notification.error({
                             message: 'Polling App',
                             description: error.message || 'Sorry! Something went wrong. Please try again!'
-                        });                                            
+                        });
+                        this.props.onLogin();
                     }
                 });
             }
@@ -68,13 +59,13 @@ class LoginForm extends Component {
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <FormItem>
-                    {getFieldDecorator('email', {
+                    {getFieldDecorator('username', {
                         rules: [{ required: true, message: 'Please input your email!' }],
                     })(
                     <Input 
                         prefix={<Icon type="user" />}
                         size="large"
-                        name="email"
+                        name="username"
                         placeholder="Email" />
                     )}
                 </FormItem>
