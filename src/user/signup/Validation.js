@@ -20,7 +20,7 @@ class Validation extends Component {
         validateRegToken(token)
         .then(response => {
             if (response.code === 1) {
-                this.props.history.push(`/activated/${response.data}`);
+                this.props.history.push(`/activated/${encodeURIComponent(response.data.replace(`%`, "0x0x0"))}`);
             }else{
                 this.props.history.push(`/activateFailed/${response.msg}`);
             }

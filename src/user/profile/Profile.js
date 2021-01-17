@@ -82,12 +82,12 @@ class Profile extends Component {
                         <div className="user-profile">
                             <div className="user-details">
                                 <div className="user-avatar">
-                                    <Avatar className="user-avatar-circle" style={{ backgroundColor: getAvatarColor(this.state.user.name)}}>
-                                        {this.state.user.name[0].toUpperCase()}
+                                    <Avatar className="user-avatar-circle" style={{ backgroundColor: getAvatarColor(this.state.user.username)}}>
+                                        {this.state.user.username[0].toUpperCase()}
                                     </Avatar>
                                 </div>
                                 <div className="user-summary">
-                                    <div className="full-name">{this.state.user.name}</div>
+                                    <div className="full-name">{this.state.user.username}</div>
                                     <div className="username">@{this.state.user.username}</div>
                                     <div className="user-joined">
                                         Joined {formatDate(this.state.user.joinedAt)}
