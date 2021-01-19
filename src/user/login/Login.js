@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom';
 import {ACCESS_TOKEN, API_BASE_URL} from '../../constants';
 
 import { Form, Input, Button, Icon, notification } from 'antd';
+import {ReCAPTCHA} from "react-google-recaptcha";
 const FormItem = Form.Item;
+
 
 class Login extends Component {
     render() {
@@ -31,27 +33,30 @@ class LoginForm extends Component {
         event.preventDefault();   
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                // this.doLogin(values)
                 login(values)
                 .then(response => {
-                    localStorage.setItem(ACCESS_TOKEN, response.data.accessToken);
-                    this.props.onLogin();
-                }).catch(error => {
-                    if(error.status === 401) {
-                        notification.error({
-                            message: 'Polling App',
-                            description: 'Your Username or Password is incorrect. Please try again!'
-                        });
-                    } else {
-                        notification.error({
-                            message: 'Polling App',
-                            description: error.message || 'Sorry! Something went wrong. Please try again!'
-                        });
+                    if (response.code === 1){
+                        localStorage.setItem(ACCESS_TOKEN, response.data.accessToken);
                         this.props.onLogin();
+                    }else{
+                        notification.error({
+                            message: 'Error',
+                            description: response.msg
+                        });
                     }
+                }).catch(error => {
+                    notification.error({
+                        message: 'Error',
+                        description: error.message || 'Sorry! Something went wrong. Please try again!'
+                    });
+                    this.props.onLogin();
                 });
             }
         });
+    }
+
+    onChange = (value) => {
+        console.log("Captcha value:", value);
     }
 
     render() {
@@ -80,6 +85,18 @@ class LoginForm extends Component {
                         type="password" 
                         placeholder="Password"  />                        
                 )}
+                </FormItem>
+                <FormItem>
+                    {getFieldDecorator('code', {
+                        rules: [{ required: false, message: 'Please input your code!' }],
+                    })(
+                        <Input
+                            prefix={<Icon type="lock" />}
+                            type="text"
+                            size="large"
+                            name="code"
+                            placeholder="Optional"  />
+                    )}
                 </FormItem>
                 <FormItem>
                     <Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>

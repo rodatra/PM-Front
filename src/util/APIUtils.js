@@ -51,14 +51,26 @@ export function castVote(voteData) {
 }
 
 export function login(loginRequest) {
-    // let param = "username=" + loginRequest.username + "&password=" + loginRequest.password;
-    return request({
-        // mode: 'no-cors',
+    let param = "username=" + encodeURIComponent(loginRequest.username) + "&password=" + encodeURIComponent(loginRequest.password) + "&code=" + loginRequest.code;
+    let options = {
         url: API_BASE_URL + "/auth/signin",
         method: 'POST',
-        // body: new URLSearchParams(param)
-        body: JSON.stringify(loginRequest)
-    });
+        headers: new Headers({
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }),
+        body: new URLSearchParams(param)
+    };
+
+    let request = Object.assign({}, options);
+
+    return fetch(options.url, request).then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
 }
 
 export async function getResponse(params) {
