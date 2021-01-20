@@ -85,6 +85,8 @@ class ApiShow extends PureComponent {
     onUrlChange = (e) => {
         this.setState({
             url: e.target.value,
+        },() => {
+            console.log(this.state.url)
         })
     }
 
@@ -287,7 +289,7 @@ class ApiShow extends PureComponent {
         };
 
         return (
-            <Tabs tabPosition='top'>
+                <Tabs tabPosition='top'>
                 <TabPane tab="调试" key="2">
                     <div>
                         <Select style={{width: '10%'}} defaultValue="GET" style={{width: 80}}

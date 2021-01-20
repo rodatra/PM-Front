@@ -91,7 +91,7 @@ class App extends Component {
       description: "You're successfully logged in.",
     });
     this.loadCurrentUser();
-    this.props.history.push("/");
+    this.props.history.push("/debugger");
   }
 
   render() {
@@ -111,7 +111,7 @@ class App extends Component {
             <div className="container">
               <Switch>      
                 <Route exact path="/"
-                  render={(props) => <ApiShow {...props} />}>
+                  render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
                 </Route>
                 <Route path="/login" 
                   render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
@@ -132,7 +132,7 @@ class App extends Component {
                 </Route>
 
                 <PrivateRoute authenticated={this.state.isAuthenticated} path="/poll/new" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute>
-                <PrivateRoute path="/debugger" component={ApiShow}></PrivateRoute>
+                <PrivateRoute authenticated={this.state.isAuthenticated} path="/debugger" component={ApiShow}></PrivateRoute>
 
                 <Route component={NotFound}></Route>
               </Switch>

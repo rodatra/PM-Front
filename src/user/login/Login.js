@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import {ACCESS_TOKEN, API_BASE_URL} from '../../constants';
 
 import { Form, Input, Button, Icon, notification } from 'antd';
-import {ReCAPTCHA} from "react-google-recaptcha";
 const FormItem = Form.Item;
 
 

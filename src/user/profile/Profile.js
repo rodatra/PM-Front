@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PollList from '../../poll/PollList';
 import { getUserProfile } from '../../util/APIUtils';
-import { Avatar, Tabs } from 'antd';
+import {Avatar, notification, Tabs} from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 import { formatDate } from '../../util/Helpers';
 import LoadingIndicator  from '../../common/LoadingIndicator';
@@ -53,6 +53,14 @@ class Profile extends Component {
     }
 
     componentDidUpdate(nextProps) {
+        if(!this.props.isAuthenticated) {
+            this.props.history.push("/login");
+            notification.info({
+                message: 'Polling App',
+                description: "Please login to vote.",
+            });
+            return;
+        }
         if(this.props.match.params.username !== nextProps.match.params.username) {
             this.loadUserProfile(nextProps.match.params.username);
         }        
@@ -90,7 +98,7 @@ class Profile extends Component {
                                     <div className="full-name">{this.state.user.username}</div>
                                     <div className="username">@{this.state.user.username}</div>
                                     <div className="user-joined">
-                                        Joined {formatDate(this.state.user.joinedAt)}
+                                        Joined {formatDate(this.state.user.createdAt)}
                                     </div>
                                 </div>
                             </div>
