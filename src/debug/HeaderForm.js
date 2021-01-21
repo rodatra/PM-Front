@@ -1,7 +1,7 @@
 import React, {PureComponent} from "react";
 import {Button, notification, Table} from "antd";
 import {EditableCell, EditableFormRow} from "./EditableCell";
-import styles from "./ApiShow.less";
+import "./ApiShow.css";
 
 export class HeaderForm extends PureComponent {
   constructor(props) {
@@ -252,7 +252,7 @@ export class HeaderForm extends PureComponent {
       <Table
         rowSelection={rowSelection}
         components={components}
-        rowClassName={() => styles["editable-row"]}
+        rowClassName={() => "editable-row"}
         bordered
         dataSource={headerList}
         columns={columns}

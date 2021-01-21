@@ -3,7 +3,7 @@ import React, {PureComponent} from 'react';
 import {EditableCell, EditableFormRow} from './EditableCell'
 import {PostFormBody} from './PostFormBody'
 import {HeaderForm} from './HeaderForm'
-import styles from './ApiShow.less';
+import './ApiShow.css';
 import {getResponse, postResponse} from "../util/APIUtils";
 import {MonacoEditor} from "../util/MonacoEditor/MonacoEditor";
 const { Option } = Select;
@@ -317,7 +317,7 @@ class ApiShow extends PureComponent {
                         <TabPane tab="Params" key="param">
                             <Table
                                 rowSelection={rowSelection}
-                                rowClassName={() => styles["editable-row"]}
+                                rowClassName={() => "editable-row"}
                                 components={components}
                                 bordered
                                 dataSource={entryList}

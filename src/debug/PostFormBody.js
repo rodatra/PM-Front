@@ -1,7 +1,7 @@
 import React, {PureComponent} from "react";
 import {Button, notification, Table} from "antd";
 import {EditableCell, EditableFormRow} from "./EditableCell";
-import styles from "./ApiShow.less";
+import styles from "./ApiShow.css";
 
 export class PostFormBody extends PureComponent {
   constructor(props) {

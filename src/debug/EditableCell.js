@@ -1,6 +1,6 @@
 import React from "react";
 import {Form, Input} from "antd";
-import styles from "./ApiShow.less";
+import "./ApiShow.css";
 
 const EditableContext = React.createContext();
 
@@ -49,7 +49,7 @@ export class EditableCell extends React.Component {
       </Form.Item>
     ) : (
       <div
-        className={styles["editable-cell-value-wrap"]}
+        className="editable-cell-value-wrap"
         style={{paddingRight: 24}}
         onClick={this.toggleEdit}
       >
