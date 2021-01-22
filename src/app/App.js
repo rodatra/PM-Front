@@ -110,9 +110,11 @@ class App extends Component {
           <Content className="app-content">
             <div className="container">
               <Switch>      
-                <Route exact path="/"
-                  render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
-                </Route>
+                {/*<Route exact path="/"*/}
+                {/*  render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>*/}
+                {/*</Route>*/}
+                <PrivateRoute exact authenticated={this.state.isAuthenticated} path="/" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute>
+
                 <Route path="/login" 
                   render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
 
@@ -131,7 +133,6 @@ class App extends Component {
                   render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>
                 </Route>
 
-                <PrivateRoute authenticated={this.state.isAuthenticated} path="/poll/new" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute>
                 <PrivateRoute authenticated={this.state.isAuthenticated} path="/debugger" component={ApiShow}></PrivateRoute>
 
                 <Route component={NotFound}></Route>

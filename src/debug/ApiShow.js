@@ -190,18 +190,17 @@ class ApiShow extends PureComponent {
     onSendingRequest = (path, param, header) => {
         if (this.state.methodUsed === 'GET') {
             let list = [path, this.state.methodUsed, header, param]
-            getResponse(list).then(res => {
-                if (res && res.code === 0) {
-                    this.setState({placeHolder: JSON.parse(res.data)});
-                } else {
-                    message.error(res && res.msg ? res.msg : 'Debug查询失败', 3);
-                }
-            }).catch(error => {
-                notification.error({
-                    message: 'Debug查询失败',
-                    description: error.message || 'Sorry! Something went wrong. Please try again!'
-                });
-            });
+            getResponse(list)
+                .then(res => {
+                    if (res && res.code === 1) {
+                        this.setState({placeHolder: JSON.parse(res.data)});
+                    } else {
+                        notification.error({
+                            message: 'Something went wrong',
+                            description: res && res.msg ? res.msg : 'Debug查询失败'
+                        });
+                    }
+                })
         } else {
             let list = [path, this.state.methodUsed, header, param, this.state.postBody]
 
@@ -209,14 +208,12 @@ class ApiShow extends PureComponent {
                 if (res && res.code === 0) {
                     this.setState({placeHolder: JSON.parse(res.data)});
                 } else {
-                    message.error(res && res.msg ? res.msg : 'Debug查询失败', 3);
+                    notification.error({
+                        message: 'Something went wrong',
+                        description: res && res.msg ? res.msg : 'Debug查询失败'
+                    });
                 }
-            }).catch(error => {
-                notification.error({
-                    message: 'Debug查询失败',
-                    description: error.message || 'Sorry! Something went wrong. Please try again!'
-                });
-            });
+            })
         }
     }
 

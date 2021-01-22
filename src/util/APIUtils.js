@@ -74,27 +74,31 @@ export function login(loginRequest) {
 }
 
 export async function getResponse(params) {
-    return request(`/debugHandler/requestHandling`, {
-        method: "POST",
-        body: {
-            url: params[0],
-            method: params[1],
-            header: params[2],
-            param: params[3],
-        }
+    let param = {
+        url: params[0],
+        method: params[1],
+        header: params[2],
+        param: params[3],
+    }
+    return request({
+        url: API_BASE_URL + "/debugHandler/requestHandling",
+        method: 'POST',
+        body: JSON.stringify(param)
     });
 }
 
 export async function postResponse(params) {
-    return request(`/debugHandler/requestHandling`, {
-        method: "POST",
-        body: {
-            url: params[0],
-            method: params[1],
-            header: params[2],
-            param: params[3],
-            postBody: params[4],
-        }
+    let param = {
+        url: params[0],
+        method: params[1],
+        header: params[2],
+        param: params[3],
+        postBody: params[4],
+    }
+    return request({
+        url: API_BASE_URL + "/debugHandler/requestHandling",
+        method: 'POST',
+        body: JSON.stringify(param)
     });
 }
 
