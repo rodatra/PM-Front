@@ -5,7 +5,7 @@ import {PostFormBody} from './PostFormBody'
 import {HeaderForm} from './HeaderForm'
 import './ApiShow.css';
 import {getResponse, postResponse} from "../util/APIUtils";
-import {MonacoEditor} from "../util/MonacoEditor/MonacoEditor";
+import MonacoEditor from 'react-monaco-editor';
 const { Option } = Select;
 const {TabPane} = Tabs;
 
@@ -69,6 +69,7 @@ class ApiShow extends PureComponent {
     };
 
     onBodyRaw = (newValue) => {
+        console.log(newValue)
         this.setState({postParam: newValue}, () => {
             this.changePostParam(newValue)
         })
@@ -87,12 +88,6 @@ class ApiShow extends PureComponent {
             url: e.target.value,
         },() => {
             console.log(this.state.url)
-        })
-    }
-
-    onMethod = (value) => {
-        this.setState({methodUsed: value}, () => {
-            this.updateURL()
         })
     }
 
@@ -132,6 +127,12 @@ class ApiShow extends PureComponent {
             this.updateURL()
         });
     };
+
+    onMethod = (value) => {
+        this.setState({methodUsed: value}, () => {
+            this.updateURL()
+        })
+    }
 
     updateURL = () => {
         const {entryList, selectedRowKeys} = this.state;
@@ -203,16 +204,16 @@ class ApiShow extends PureComponent {
                 })
         } else {
             let list = [path, this.state.methodUsed, header, param, this.state.postBody]
-
-            postResponse(list).then(res => {
-                if (res && res.code === 0) {
-                    this.setState({placeHolder: JSON.parse(res.data)});
-                } else {
-                    notification.error({
-                        message: 'Something went wrong',
-                        description: res && res.msg ? res.msg : 'Debug查询失败'
-                    });
-                }
+            postResponse(list)
+                .then(res => {
+                    if (res && res.code === 1) {
+                        this.setState({placeHolder: JSON.parse(res.data)});
+                    } else {
+                        notification.error({
+                            message: 'Something went wrong',
+                            description: res && res.msg ? res.msg : 'Debug查询失败'
+                        });
+                    }
             })
         }
     }
@@ -284,15 +285,15 @@ class ApiShow extends PureComponent {
             selectedRowKeys,
             onChange: this.onSelectChange,
         };
-
+        const METHODS = ['GET', 'POST'];
         return (
                 <Tabs tabPosition='top'>
                 <TabPane tab="调试" key="2">
                     <div>
                         <Select style={{width: '10%'}} defaultValue="GET" style={{width: 80}}
                                 onChange={this.onMethod}>
-                            {['GET', 'POST'].map(j => (
-                                <Option value={j.method}>{j.method}</Option>
+                            {METHODS.map(j => (
+                                <Option value={j}>{j}</Option>
                             ))}
                         </Select>
                         <Input style={{width: '80%'}} placeholder="Url" onChange={this.onUrlChange}/>
@@ -335,7 +336,7 @@ class ApiShow extends PureComponent {
                                 this.state.bodyType === 'raw' ? (
                                     <MonacoEditor
                                         height="200"
-                                        theme="vs"
+                                        theme="vs-light"
                                         language="c"
                                         onChange={this.onBodyRaw}
                                         options={{
