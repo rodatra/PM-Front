@@ -77,15 +77,17 @@ export class MonacoEditor extends Component {
     if (this.containerElement) {
       // Before initializing monaco editor
       this.editorWillMount();
-      //注册自定义语言
       this.editor = monaco.editor.create(this.containerElement, {
         value,
         language,
         theme,
         ...options,
       });
+      // After initializing monaco editor
+      this.editorDidMount(this.editor);
     }
   }
+
 
   destroyMonaco() {
     if (typeof this.editor !== 'undefined') {

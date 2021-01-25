@@ -65,7 +65,7 @@ class App extends Component {
     });
   }
 
-  componentDidMount() {
+  componentWillMount () {
     this.loadCurrentUser();
   }
 
@@ -91,7 +91,7 @@ class App extends Component {
       description: "You're successfully logged in.",
     });
     this.loadCurrentUser();
-    this.props.history.push("/debugger");
+    this.props.history.push("/");
   }
 
   render() {
@@ -113,7 +113,9 @@ class App extends Component {
                 {/*<Route exact path="/"*/}
                 {/*  render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>*/}
                 {/*</Route>*/}
-                <PrivateRoute exact authenticated={this.state.isAuthenticated} path="/" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute>
+                {/*<PrivateRoute exact authenticated={this.state.isAuthenticated} path="/" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute>*/}
+
+                <PrivateRoute exact authenticated={this.state.isAuthenticated} path="/" component={ApiShow}></PrivateRoute>
 
                 <Route path="/login" 
                   render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
@@ -132,8 +134,6 @@ class App extends Component {
                 <Route path="/users/:username" 
                   render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>
                 </Route>
-
-                <PrivateRoute authenticated={this.state.isAuthenticated} path="/debugger" component={ApiShow}></PrivateRoute>
 
                 <Route component={NotFound}></Route>
               </Switch>

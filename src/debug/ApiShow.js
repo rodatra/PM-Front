@@ -5,7 +5,7 @@ import {PostFormBody} from './PostFormBody'
 import {HeaderForm} from './HeaderForm'
 import './ApiShow.css';
 import {getResponse, postResponse} from "../util/APIUtils";
-import MonacoEditor from 'react-monaco-editor';
+import {MonacoEditor} from "../util/MonacoEditor/MonacoEditor";
 const { Option } = Select;
 const {TabPane} = Tabs;
 
@@ -38,7 +38,8 @@ class ApiShow extends PureComponent {
             },
         ];
         this.state = {
-            url: "",
+            append: "",
+            baseUrl: "",
             apiList: [],
             postParam: {},
             postBody: {},
@@ -83,11 +84,11 @@ class ApiShow extends PureComponent {
         });
     }
 
-    onUrlChange = (e) => {
+    onBaseUrlChange = (e) => {
         this.setState({
-            url: e.target.value,
+            baseUrl: e.target.value.replace(this.state.append,""),
         },() => {
-            console.log(this.state.url)
+            console.log(this.state.baseUrl)
         })
     }
 
@@ -157,7 +158,7 @@ class ApiShow extends PureComponent {
 
         this.setState({
             getParam: json,
-            url: append,
+            append: append,
         })
     }
 
@@ -193,8 +194,17 @@ class ApiShow extends PureComponent {
             let list = [path, this.state.methodUsed, header, param]
             getResponse(list)
                 .then(res => {
+                    let result;
+                    try{
+                        result = JSON.parse(res.data)
+                    }catch (e) {
+                        notification.error({
+                            message: 'Json parse failed',
+                            description: '非法的Json格式'
+                        });
+                    }
                     if (res && res.code === 1) {
-                        this.setState({placeHolder: JSON.parse(res.data)});
+                        this.setState({placeHolder: result});
                     } else {
                         notification.error({
                             message: 'Something went wrong',
@@ -206,7 +216,17 @@ class ApiShow extends PureComponent {
             let list = [path, this.state.methodUsed, header, param, this.state.postBody]
             postResponse(list)
                 .then(res => {
+                    let result;
+                    try{
+                        result = JSON.parse(res.data)
+                    }catch (e) {
+                        notification.error({
+                            message: 'Json parse failed',
+                            description: '非法的Json格式'
+                        });
+                    }
                     if (res && res.code === 1) {
+                        this.setState({placeHolder: result});
                         this.setState({placeHolder: JSON.parse(res.data)});
                     } else {
                         notification.error({
@@ -256,30 +276,6 @@ class ApiShow extends PureComponent {
             };
         });
 
-        const paramColumns = [
-            {
-                title: '参数名称',
-                dataIndex: 'name',
-                key: 'name',
-            },
-            {
-                title: '参数说明',
-                dataIndex: 'description',
-                key: 'description',
-            },
-            {
-                title: '是否必须',
-                dataIndex: 'required',
-                render: required => `${required.toString()}`,
-                key: 'required',
-            },
-            {
-                title: '数据类型',
-                dataIndex: 'modelRef.type',
-                key: 'modelRef.type',
-            },
-        ];
-
         const {selectedRowKeys} = this.state;
         const rowSelection = {
             selectedRowKeys,
@@ -296,12 +292,14 @@ class ApiShow extends PureComponent {
                                 <Option value={j}>{j}</Option>
                             ))}
                         </Select>
-                        <Input style={{width: '80%'}} placeholder="Url" onChange={this.onUrlChange}/>
+                        <Input style={{width: '80%'}} placeholder="Url"
+                               value={this.state.baseUrl + this.state.append}
+                                onChange={this.onBaseUrlChange}/>
                         <Button style={{marginLeft: "1px", width: '10%'}}
                                 type="primary"
                                 onClick={() => {
                                     this.onSendingRequest(
-                                        this.state.url,
+                                        this.state.baseUrl + this.state.append,
                                         this.state.getParam,
                                         this.state.header,
                                     )
