@@ -24,8 +24,8 @@ class AppHeader extends Component {
         let menuItems;
         if(this.props.currentUser) {
           menuItems = [
-            <Menu.Item key="/debugger">
-              <Link to="/debugger">
+            <Menu.Item key="/">
+              <Link to="/">
                 <Icon type="home" className="nav-icon" />
               </Link>
             </Menu.Item>,

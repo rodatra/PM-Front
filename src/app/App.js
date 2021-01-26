@@ -8,9 +8,6 @@ import {
 
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
-
-import PollList from '../poll/PollList';
-import NewPoll from '../poll/NewPoll';
 import Login from '../user/login/Login';
 import Signup from '../user/signup/Signup';
 import Profile from '../user/profile/Profile';
@@ -21,7 +18,6 @@ import PrivateRoute from '../common/PrivateRoute';
 
 import { Layout, notification } from 'antd';
 import Activated from "../common/Activated";
-import QRCode from "../common/QRCode";
 import Validation from "../user/signup/Validation";
 import ActivateFailed from "../common/ActivateFailed";
 import ApiShow from "../debug/ApiShow";
@@ -65,7 +61,7 @@ class App extends Component {
     });
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.loadCurrentUser();
   }
 
@@ -109,12 +105,7 @@ class App extends Component {
 
           <Content className="app-content">
             <div className="container">
-              <Switch>      
-                {/*<Route exact path="/"*/}
-                {/*  render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>*/}
-                {/*</Route>*/}
-                {/*<PrivateRoute exact authenticated={this.state.isAuthenticated} path="/" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute>*/}
-
+              <Switch>
                 <PrivateRoute exact authenticated={this.state.isAuthenticated} path="/" component={ApiShow}></PrivateRoute>
 
                 <Route path="/login" 
