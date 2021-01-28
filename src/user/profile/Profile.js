@@ -26,24 +26,24 @@ class Profile extends Component {
         });
 
         getUserProfile(username)
-        .then(response => {
-            this.setState({
-                user: response,
-                isLoading: false
-            });
-        }).catch(error => {
-            if(error.status === 404) {
+            .then(response => {
                 this.setState({
-                    notFound: true,
+                    user: response,
                     isLoading: false
                 });
-            } else {
-                this.setState({
-                    serverError: true,
-                    isLoading: false
-                });        
-            }
-        });        
+            }).catch(error => {
+                if(error.status === 404) {
+                    this.setState({
+                        notFound: true,
+                        isLoading: false
+                    });
+                } else {
+                    this.setState({
+                        serverError: true,
+                        isLoading: false
+                    });
+                }
+            });
     }
       
     componentDidMount() {

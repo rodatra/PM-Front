@@ -21,6 +21,7 @@ import Activated from "../common/Activated";
 import Validation from "../user/signup/Validation";
 import ActivateFailed from "../common/ActivateFailed";
 import ApiShow from "../debug/ApiShow";
+import DebugHistory from "../history/DebugHistory";
 const { Content } = Layout;
 
 class App extends Component {
@@ -112,6 +113,8 @@ class App extends Component {
                   render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
 
                 <Route path="/signup" component={Signup}></Route>
+
+                <Route path="/history" component={DebugHistory}></Route>
 
                 <Route path="/activated/:message"
     render={(props) => <Activated message={props.match.params.message} {...props} />}/>

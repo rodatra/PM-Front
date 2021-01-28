@@ -118,6 +118,13 @@ export function getUserProfile(username) {
     });
 }
 
+export function getDebugHistory() {
+    return request({
+        url: API_BASE_URL + "/debugHandler/getHistory",
+        method: 'GET'
+    });
+}
+
 export function validateRegToken(token) {
     return request({
         url: API_BASE_URL + "/validateRegToken?token=" + token,
