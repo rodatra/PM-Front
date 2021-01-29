@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import {getUserProfile, validateRegToken} from '../../util/APIUtils';
-import {Avatar, message, Tabs} from 'antd';
+import { validateRegToken} from '../../util/APIUtils';
+import {Avatar} from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 import { formatDate } from '../../util/Helpers';
-
-const TabPane = Tabs.TabPane;
 
 class Validation extends Component {
     constructor(props) {

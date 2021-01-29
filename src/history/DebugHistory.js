@@ -34,6 +34,7 @@ class DebugHistory extends PureComponent {
         ];
         this.state = {
             entryList: [],
+            data: []
         }
         this.loadDebugHistory = this.loadDebugHistory.bind(this);
     };
@@ -50,12 +51,14 @@ class DebugHistory extends PureComponent {
                     for (let i = 0; i< res.data.length; i++){
                         let ob = JSON.parse(res.data[i].jsonParam);
                         arr.push({
-                            key: res.data[i].id,
+                            // key: res.data[i].id,
+                            key: i,
                             method: ob.method,
                             url: ob.url,
                         })
                     }
                     this.setState({
+                        data: res.data,
                         entryList: arr,
                     });
                 }
@@ -75,7 +78,7 @@ class DebugHistory extends PureComponent {
     }
 
     restore = (postParam) => {
-        console.log(postParam)
+        this.props.history.push("/", this.state.data[postParam]);
     }
 
     render() {

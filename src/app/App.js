@@ -92,9 +92,6 @@ class App extends Component {
   }
 
   render() {
-    // if(this.state.check) {
-    //   return <QRCode message="Your account is successfully activated!" />
-    // }
     if(this.state.isLoading) {
       return <LoadingIndicator />
     }
@@ -107,7 +104,9 @@ class App extends Component {
           <Content className="app-content">
             <div className="container">
               <Switch>
-                <PrivateRoute exact authenticated={this.state.isAuthenticated} path="/" component={ApiShow}></PrivateRoute>
+                <PrivateRoute exact authenticated={this.state.isAuthenticated} path="/"
+                              component={ApiShow} props={this.props}>
+                </PrivateRoute>
 
                 <Route path="/login" 
                   render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>

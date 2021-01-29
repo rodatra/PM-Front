@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { getUserProfile } from '../../util/APIUtils';
-import {Avatar, notification, Tabs} from 'antd';
+import {Avatar, notification} from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 import { formatDate } from '../../util/Helpers';
 import LoadingIndicator  from '../../common/LoadingIndicator';
 import './Profile.css';
 import NotFound from '../../common/NotFound';
 import ServerError from '../../common/ServerError';
-
-const TabPane = Tabs.TabPane;
 
 class Profile extends Component {
     constructor(props) {

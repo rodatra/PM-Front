@@ -70,7 +70,17 @@ class ApiShow extends PureComponent {
     };
 
     componentDidMount() {
+        if (this.props){
+            console.log(this.props.location.state)
+        }
+    }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.message){
+            this.setState({
+                image: nextProps.message,
+            });
+        }
     }
 
     onBodyRaw = (newValue) => {
