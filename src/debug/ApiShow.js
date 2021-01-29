@@ -1,4 +1,4 @@
-import {Button, Col, Input, message, notification, Radio, Row, Select, Table, Tabs, Tag, Tooltip} from 'antd';
+import {Button, Input, notification, Radio, Select, Table, Tabs} from 'antd';
 import React, {PureComponent} from 'react';
 import {EditableCell, EditableFormRow} from './EditableCell'
 import {PostFormBody} from './PostFormBody'
@@ -68,6 +68,10 @@ class ApiShow extends PureComponent {
             up: 1
         }
     };
+
+    componentDidMount() {
+
+    }
 
     onBodyRaw = (newValue) => {
         console.log(newValue)

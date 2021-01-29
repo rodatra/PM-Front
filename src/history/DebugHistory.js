@@ -1,4 +1,4 @@
-import {Button, Col, Input, message, notification, Radio, Row, Select, Table, Tabs, Tag, Tooltip} from 'antd';
+import {Button, Table} from 'antd';
 import React, {PureComponent} from 'react';
 import {getDebugHistory} from "../util/APIUtils";
 
@@ -10,32 +10,30 @@ class DebugHistory extends PureComponent {
             {
                 title: 'Method',
                 dataIndex: 'method',
+                key: 'method',
                 width: '10%',
             },
             {
                 title: 'Url',
                 dataIndex: 'url',
+                key: 'url',
                 width: '77%',
             },
             {
                 title: 'Operation',
                 dataIndex: 'operation',
+                key: 'operation',
                 render: (text, record) =>
                     this.state.entryList.length >= 1 ? (
                         <Button style={{marginLeft: "20px", marginRight: "20px"}} shape="circle"
-                                icon="delete" onClick={() => {
+                                icon="rollback" onClick={() => {
                             this.restore(record.key);
                         }}></Button>
                     ) : null,
             },
         ];
         this.state = {
-            entryList: [
-                {
-                    method: '',
-                    url: '',
-                }
-            ],
+            entryList: [],
         }
         this.loadDebugHistory = this.loadDebugHistory.bind(this);
     };
@@ -49,13 +47,14 @@ class DebugHistory extends PureComponent {
             .then(res => {
                 let arr = []
                 if (res && res.code === 1){
-                    res.data.map(item => {
-                        let ob = JSON.parse(item.jsonParam);
+                    for (let i = 0; i< res.data.length; i++){
+                        let ob = JSON.parse(res.data[i].jsonParam);
                         arr.push({
-                            method: ob.get("method"),
-                            url: ob.get("url"),
+                            key: res.data[i].id,
+                            method: ob.method,
+                            url: ob.url,
                         })
-                    })
+                    }
                     this.setState({
                         entryList: arr,
                     });
@@ -76,32 +75,17 @@ class DebugHistory extends PureComponent {
     }
 
     restore = (postParam) => {
-
+        console.log(postParam)
     }
 
     render() {
         const {entryList} = this.state;
-        const columns = this.columns.map(col => {
-            if (!col.editable) {
-                return col;
-            }
-            return {
-                ...col,
-                onCell: record => ({
-                    record,
-                    editable: col.editable,
-                    dataIndex: col.dataIndex,
-                    title: col.title,
-                    handleSave: this.handleSave,
-                }),
-            };
-        });
 
         return (
             <Table
                 bordered
                 dataSource={entryList}
-                columns={columns}
+                columns={this.columns}
             />
         );
     }
