@@ -70,16 +70,14 @@ class ApiShow extends PureComponent {
     };
 
     componentDidMount() {
-        if (this.props){
-            console.log(this.props.location.state)
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.message){
+        if (this.props.location.state){
+            let ob = JSON.parse(this.props.location.state.jsonParam)
+            console.log(ob)
             this.setState({
-                image: nextProps.message,
-            });
+                baseUrl: ob.url,
+            },() => {
+                this.onMethod(ob.method)
+            })
         }
     }
 
@@ -300,7 +298,7 @@ class ApiShow extends PureComponent {
                 <Tabs tabPosition='top'>
                 <TabPane tab="调试" key="2">
                     <div>
-                        <Select style={{width: '10%'}} defaultValue="GET" style={{width: 80}}
+                        <Select style={{width: '10%'}} defaultValue="GET" value={this.state.methodUsed} style={{width: 80}}
                                 onChange={this.onMethod}>
                             {METHODS.map(j => (
                                 <Option value={j}>{j}</Option>
@@ -322,7 +320,8 @@ class ApiShow extends PureComponent {
                     </div>
                     <Tabs tabPosition='top'>
                         <TabPane tab="Headers" key="header">
-                            <HeaderForm changeHeader={this.changeHeader} data={this.state.bodyType}/>
+                            <HeaderForm changeHeader={this.changeHeader} data={this.state.bodyType}
+                                        legacy={this.state.header}/>
                         </TabPane>
                         <TabPane tab="Params" key="param">
                             <Table

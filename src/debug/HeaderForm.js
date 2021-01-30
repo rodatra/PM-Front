@@ -67,7 +67,26 @@ export class HeaderForm extends PureComponent {
     }
   };
 
+  componentDidMount() {
+
+  }
+
   componentWillReceiveProps(nextProps) {
+    // if (nextProps.legacy){
+    //   let arr = []
+    //   let result = Object.keys(nextProps.legacy).map((key) => [key, nextProps.legacy[key]]);
+    //   for (let i = 0; i< result.length; i++){
+    //     arr.push({
+    //       key: 'k' + this.state.count+i,
+    //       keyAlias: result[i][0],
+    //       value: result[i][1],
+    //       chosen: true,
+    //     })
+    //   }
+    //   this.setState({
+    //     headerList: arr
+    //   })
+    // }
     if (nextProps.data !== this.state.legacy){
       this.setState({
         bodyType: nextProps.data,
