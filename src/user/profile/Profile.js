@@ -7,6 +7,7 @@ import LoadingIndicator  from '../../common/LoadingIndicator';
 import './Profile.css';
 import NotFound from '../../common/NotFound';
 import ServerError from '../../common/ServerError';
+import DebugHistory from "../../history/DebugHistory";
 
 class Profile extends Component {
     constructor(props) {
@@ -100,18 +101,7 @@ class Profile extends Component {
                                 </div>
                             </div>
                             <div className="user-poll-details">    
-                                {/*<Tabs defaultActiveKey="1" */}
-                                {/*    animated={false}*/}
-                                {/*    tabBarStyle={tabBarStyle}*/}
-                                {/*    size="large"*/}
-                                {/*    className="profile-tabs">*/}
-                                {/*    <TabPane tab={`${this.state.user.pollCount} Polls`} key="1">*/}
-                                {/*        <PollList username={this.props.match.params.username} type="USER_CREATED_POLLS" />*/}
-                                {/*    </TabPane>*/}
-                                {/*    <TabPane tab={`${this.state.user.voteCount} Votes`}  key="2">*/}
-                                {/*        <PollList username={this.props.match.params.username} type="USER_VOTED_POLLS" />*/}
-                                {/*    </TabPane>*/}
-                                {/*</Tabs>*/}
+                                <DebugHistory />
                             </div>  
                         </div>  
                     ): null               

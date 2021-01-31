@@ -77,14 +77,14 @@ class App extends Component {
     this.props.history.push(redirectTo);
     
     notification[notificationType]({
-      message: 'Polling App',
+      message: 'R Debugger',
       description: description,
     });
   }
 
   handleLogin() {
     notification.success({
-      message: 'Polling App',
+      message: 'R Debugger',
       description: "You're successfully logged in.",
     });
     this.loadCurrentUser();

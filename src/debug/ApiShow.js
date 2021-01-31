@@ -295,77 +295,76 @@ class ApiShow extends PureComponent {
         };
         const METHODS = ['GET', 'POST'];
         return (
-                <Tabs tabPosition='top'>
-                <TabPane tab="调试" key="2">
-                    <div>
-                        <Select style={{width: '10%'}} defaultValue="GET" value={this.state.methodUsed} style={{width: 80}}
-                                onChange={this.onMethod}>
-                            {METHODS.map(j => (
-                                <Option value={j}>{j}</Option>
-                            ))}
-                        </Select>
-                        <Input style={{width: '80%'}} placeholder="Url"
-                               value={this.state.baseUrl + this.state.append}
-                                onChange={this.onBaseUrlChange}/>
-                        <Button style={{marginLeft: "1px", width: '10%'}}
-                                type="primary"
-                                onClick={() => {
-                                    this.onSendingRequest(
-                                        this.state.baseUrl + this.state.append,
-                                        this.state.getParam,
-                                        this.state.header,
+                <div style={{marginTop: "10px"}}>
+                        <div>
+                            <Select style={{width: '10%'}} defaultValue="GET" value={this.state.methodUsed} style={{width: 80}}
+                                    onChange={this.onMethod}>
+                                {METHODS.map(j => (
+                                    <Option value={j}>{j}</Option>
+                                ))}
+                            </Select>
+                            <Input style={{width: '80%'}} placeholder="Url"
+                                   value={this.state.baseUrl + this.state.append}
+                                    onChange={this.onBaseUrlChange}/>
+                            <Button style={{marginLeft: "1px", width: '10%'}}
+                                    type="primary"
+                                    onClick={() => {
+                                        this.onSendingRequest(
+                                            this.state.baseUrl + this.state.append,
+                                            this.state.getParam,
+                                            this.state.header,
+                                        )
+                                    }
+                                    }>Send</Button>
+                        </div>
+                        <Tabs tabPosition='top'>
+                            <TabPane tab="Headers" key="header">
+                                <HeaderForm changeHeader={this.changeHeader} data={this.state.bodyType}
+                                            legacy={this.state.header}/>
+                            </TabPane>
+                            <TabPane tab="Params" key="param">
+                                <Table
+                                    rowSelection={rowSelection}
+                                    rowClassName={() => "editable-row"}
+                                    components={components}
+                                    bordered
+                                    dataSource={entryList}
+                                    columns={columns}
+                                />
+                            </TabPane>
+                            <TabPane tab="Body" key="body">
+                                <Radio.Group onChange={this.onBodyType} value={this.state.bodyType}
+                                             style={{marginLeft: '5px', marginBottom: '10px'}}>
+                                    <Radio value='form-data'>form-data</Radio>
+                                    <Radio value='x-www-form-urlencoded'>x-www-form-urlencoded</Radio>
+                                    <Radio value='raw'>raw</Radio>
+                                </Radio.Group>
+                                <Select style={{width: '10%'}} defaultValue="JSON" style={{width: 80}}>
+                                    <Option value="JSON">JSON</Option>
+                                </Select>
+                                {
+                                    this.state.bodyType === 'raw' ? (
+                                        <MonacoEditor
+                                            height="200"
+                                            theme="vs-light"
+                                            language="c"
+                                            onChange={this.onBodyRaw}
+                                            options={{
+                                                contextmenu: false,
+                                                minimap: {enabled: false},
+                                                matchBrackets: true,
+                                            }}
+                                        />
+                                    ) : (
+                                        <div>
+                                            <PostFormBody changePostParam={this.changePostParam}/>
+                                        </div>
                                     )
                                 }
-                                }>Send</Button>
-                    </div>
-                    <Tabs tabPosition='top'>
-                        <TabPane tab="Headers" key="header">
-                            <HeaderForm changeHeader={this.changeHeader} data={this.state.bodyType}
-                                        legacy={this.state.header}/>
-                        </TabPane>
-                        <TabPane tab="Params" key="param">
-                            <Table
-                                rowSelection={rowSelection}
-                                rowClassName={() => "editable-row"}
-                                components={components}
-                                bordered
-                                dataSource={entryList}
-                                columns={columns}
-                            />
-                        </TabPane>
-                        <TabPane tab="Body" key="body">
-                            <Radio.Group onChange={this.onBodyType} value={this.state.bodyType}
-                                         style={{marginLeft: '5px', marginBottom: '10px'}}>
-                                <Radio value='form-data'>form-data</Radio>
-                                <Radio value='x-www-form-urlencoded'>x-www-form-urlencoded</Radio>
-                                <Radio value='raw'>raw</Radio>
-                            </Radio.Group>
-                            <Select style={{width: '10%'}} defaultValue="JSON" style={{width: 80}}>
-                                <Option value="JSON">JSON</Option>
-                            </Select>
-                            {
-                                this.state.bodyType === 'raw' ? (
-                                    <MonacoEditor
-                                        height="200"
-                                        theme="vs-light"
-                                        language="c"
-                                        onChange={this.onBodyRaw}
-                                        options={{
-                                            contextmenu: false,
-                                            minimap: {enabled: false},
-                                            matchBrackets: true,
-                                        }}
-                                    />
-                                ) : (
-                                    <div>
-                                        <PostFormBody changePostParam={this.changePostParam}/>
-                                    </div>
-                                )
-                            }
-                        </TabPane>
-                    </Tabs>
-                    <Tabs tabPosition='top'>
-                        <TabPane tab="Response" key="1">
+                            </TabPane>
+                        </Tabs>
+                        <Tabs tabPosition='top'>
+                            <TabPane tab="Response" key="1">
                             <MonacoEditor
                                 height="200"
                                 theme="vs"
@@ -378,9 +377,8 @@ class ApiShow extends PureComponent {
                                 }}
                             />
                         </TabPane>
-                    </Tabs>
-                </TabPane>
-            </Tabs>
+                        </Tabs>
+                </div>
         );
     }
 }

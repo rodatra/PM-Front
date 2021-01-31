@@ -85,11 +85,13 @@ class DebugHistory extends PureComponent {
         const {entryList} = this.state;
 
         return (
-            <Table
+            <div style={{marginTop: "10px"}}>
+                <Table
                 bordered
                 dataSource={entryList}
                 columns={this.columns}
             />
+            </div>
         );
     }
 }
