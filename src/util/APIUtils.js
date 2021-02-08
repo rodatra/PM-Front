@@ -131,3 +131,10 @@ export function validateRegToken(token) {
         method: 'GET'
     });
 }
+
+export function validateLocToken(token) {
+    return request({
+        url: API_BASE_URL + "/enableNewLoc?token=" + token,
+        method: 'GET'
+    });
+}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { validateRegToken} from '../../util/APIUtils';
+import {validateLocToken, validateRegToken} from '../../util/APIUtils';
 import {Avatar} from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 import { formatDate } from '../../util/Helpers';
@@ -10,10 +10,11 @@ class Validation extends Component {
         this.state = {
             validation: false,
         }
-        this.checkTokenValidity = this.checkTokenValidity.bind(this);
+        this.checkRegTokenValidity = this.checkRegTokenValidity.bind(this);
+        this.checkLocTokenValidity = this.checkLocTokenValidity.bind(this);
     }
 
-    checkTokenValidity(token) {
+    checkRegTokenValidity(token) {
         validateRegToken(token)
         .then(response => {
             if (response.code === 1) {
@@ -26,9 +27,28 @@ class Validation extends Component {
         });        
     }
 
+    checkLocTokenValidity(token) {
+        validateLocToken(token)
+            .then(response => {
+                if (response.code === 1) {
+                    this.props.history.push(`/activated/${response.msg}`);
+                }else{
+                    this.props.history.push(`/activateFailed/${response.msg}`);
+                }
+            }).catch(error => {
+
+        });
+    }
+
     componentDidMount() {
-        const token = this.props.match.params.token;
-        this.checkTokenValidity(token);
+        const token = this.props.token;
+        const source = this.props.source;
+        if (source === "reg"){
+            this.checkRegTokenValidity(token);
+        }else if (source === "loc"){
+            this.checkLocTokenValidity(token);
+        }
+
     }
 
     render() {

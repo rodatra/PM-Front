@@ -122,7 +122,10 @@ class App extends Component {
                        render={(props) => <ActivateFailed message={props.match.params.message} {...props} />}/>
 
                 <Route path="/registrationConfirm/:token"
-                       render={(props) => <Validation token={props.match.params.token} {...props} />}></Route>
+                       render={(props) => <Validation source="reg" token={props.match.params.token} {...props} />}></Route>
+
+                <Route path="/locationConfirm/:token"
+                       render={(props) => <Validation source="loc" token={props.match.params.token} {...props} />}></Route>
 
                 <Route path="/users/:username" 
                   render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>
