@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getUserProfile } from '../../util/APIUtils';
-import {Avatar, notification} from 'antd';
+import {Avatar, Button, notification} from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 import { formatDate } from '../../util/Helpers';
 import LoadingIndicator  from '../../common/LoadingIndicator';
@@ -44,7 +44,7 @@ class Profile extends Component {
                 }
             });
     }
-      
+
     componentDidMount() {
         const username = this.props.match.params.username;
         this.loadUserProfile(username);
@@ -61,7 +61,7 @@ class Profile extends Component {
         }
         if(this.props.match.params.username !== nextProps.match.params.username) {
             this.loadUserProfile(nextProps.match.params.username);
-        }        
+        }
     }
 
     render() {
@@ -83,10 +83,10 @@ class Profile extends Component {
 
         return (
             <div className="profile">
-                { 
+                {
                     this.state.user ? (
                         <div className="user-profile">
-                            <div className="user-details">
+                            <div>
                                 <div className="user-avatar">
                                     <Avatar className="user-avatar-circle" style={{ backgroundColor: getAvatarColor(this.state.user.username)}}>
                                         {this.state.user.username[0].toUpperCase()}
@@ -99,12 +99,20 @@ class Profile extends Component {
                                         Joined {formatDate(this.state.user.createdAt)}
                                     </div>
                                 </div>
+                                <div className="user-summary">
+                                    <Button type="dashed">
+                                        Enable 2 Factor Auth
+                                    </Button>
+                                    <Button type="dashed">
+                                        Change Password
+                                    </Button>
+                                </div>
                             </div>
-                            <div className="user-poll-details">    
+                            <div className="user-poll-details">
                                 <DebugHistory />
-                            </div>  
-                        </div>  
-                    ): null               
+                            </div>
+                        </div>
+                    ): null
                 }
             </div>
         );
