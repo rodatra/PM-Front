@@ -138,3 +138,26 @@ export function validateLocToken(token) {
         method: 'GET'
     });
 }
+
+export function validatePassToken(token) {
+    return request({
+        url: API_BASE_URL + "/user/validateChangePassToken?token=" + token,
+        method: 'GET'
+    });
+}
+
+export function enable2Factor(status) {
+    return request({
+        url: API_BASE_URL + "/user/update/2fa",
+        method: 'POST',
+        body: JSON.stringify(status)
+    });
+}
+
+export function resetPassword(email) {
+    return request({
+        url: API_BASE_URL + "/user/resetPassword",
+        method: 'POST',
+        body: JSON.stringify(email)
+    });
+}

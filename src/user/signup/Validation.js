@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {validateLocToken, validateRegToken} from '../../util/APIUtils';
+import {validateLocToken, validatePassToken, validateRegToken} from '../../util/APIUtils';
 import {Avatar} from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 import { formatDate } from '../../util/Helpers';
@@ -40,6 +40,19 @@ class Validation extends Component {
         });
     }
 
+    checkPassTokenValidity(token) {
+        validatePassToken(token)
+            .then(response => {
+                if (response.code === 1) {
+                    this.props.history.push(`/changePass`);
+                }else{
+                    this.props.history.push(`/activateFailed/${response.msg}`);
+                }
+            }).catch(error => {
+
+        });
+    }
+
     componentDidMount() {
         const token = this.props.token;
         const source = this.props.source;
@@ -47,6 +60,8 @@ class Validation extends Component {
             this.checkRegTokenValidity(token);
         }else if (source === "loc"){
             this.checkLocTokenValidity(token);
+        }else if (source === "pass"){
+            this.checkPassTokenValidity(token);
         }
 
     }

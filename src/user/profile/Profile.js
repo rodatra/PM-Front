@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getUserProfile } from '../../util/APIUtils';
+import {enable2Factor, getUserProfile, resetPassword} from '../../util/APIUtils';
 import {Avatar, Button, notification} from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 import { formatDate } from '../../util/Helpers';
@@ -64,6 +64,50 @@ class Profile extends Component {
         }
     }
 
+    update2Factor = () => {
+        enable2Factor()
+            .then(response => {
+                this.setState({
+                    user: response,
+                    isLoading: false
+                });
+            }).catch(error => {
+            if(error.status === 404) {
+                this.setState({
+                    notFound: true,
+                    isLoading: false
+                });
+            } else {
+                this.setState({
+                    serverError: true,
+                    isLoading: false
+                });
+            }
+        });
+    }
+
+    changePassword = () => {
+        resetPassword(this.state.user.email)
+            .then(response => {
+                this.setState({
+                    user: response,
+                    isLoading: false
+                });
+            }).catch(error => {
+            if(error.status === 404) {
+                this.setState({
+                    notFound: true,
+                    isLoading: false
+                });
+            } else {
+                this.setState({
+                    serverError: true,
+                    isLoading: false
+                });
+            }
+        });
+    }
+
     render() {
         if(this.state.isLoading) {
             return <LoadingIndicator />;
@@ -100,10 +144,14 @@ class Profile extends Component {
                                     </div>
                                 </div>
                                 <div className="user-summary">
-                                    <Button type="dashed">
+                                    <Button type="dashed" onClick={() => {
+                                        this.update2Factor();
+                                    }}>
                                         Enable 2 Factor Auth
                                     </Button>
-                                    <Button type="dashed">
+                                    <Button type="dashed" onClick={() => {
+                                        this.changePassword();
+                                    }}>
                                         Change Password
                                     </Button>
                                 </div>
