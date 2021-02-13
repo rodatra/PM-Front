@@ -39,14 +39,14 @@ class LoginForm extends Component {
                         this.props.onLogin();
                     }else{
                         notification.error({
-                            message: 'Error',
+                            message: '错误',
                             description: response.msg
                         });
                     }
                 }).catch(error => {
                     notification.error({
-                        message: 'Error',
-                        description: error.message || 'Sorry! Something went wrong. Please try again!'
+                        message: '错误',
+                        description: '出错了，请稍后重试。',
                     });
                     this.props.onLogin();
                 });

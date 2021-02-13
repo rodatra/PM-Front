@@ -211,7 +211,7 @@ class ApiShow extends PureComponent {
                         result = JSON.parse(res.data)
                     }catch (e) {
                         notification.error({
-                            message: 'Json parse failed',
+                            message: '失败',
                             description: '非法的Json格式'
                         });
                     }
@@ -219,7 +219,7 @@ class ApiShow extends PureComponent {
                         this.setState({placeHolder: result});
                     } else {
                         notification.error({
-                            message: 'Something went wrong',
+                            message: '失败',
                             description: res && res.msg ? res.msg : 'Debug查询失败'
                         });
                     }
@@ -233,7 +233,7 @@ class ApiShow extends PureComponent {
                         result = JSON.parse(res.data)
                     }catch (e) {
                         notification.error({
-                            message: 'Json parse failed',
+                            message: '失败',
                             description: '非法的Json格式'
                         });
                     }
@@ -242,7 +242,7 @@ class ApiShow extends PureComponent {
                         this.setState({placeHolder: JSON.parse(res.data)});
                     } else {
                         notification.error({
-                            message: 'Something went wrong',
+                            message: '失败',
                             description: res && res.msg ? res.msg : 'Debug查询失败'
                         });
                     }

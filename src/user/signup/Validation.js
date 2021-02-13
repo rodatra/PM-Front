@@ -44,7 +44,7 @@ class Validation extends Component {
         validatePassToken(token)
             .then(response => {
                 if (response.code === 1) {
-                    this.props.history.push(`/changePass`);
+                    this.props.history.push(`/changePass/${token}`);
                 }else{
                     this.props.history.push(`/activateFailed/${response.msg}`);
                 }

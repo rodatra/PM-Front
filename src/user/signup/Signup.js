@@ -71,8 +71,8 @@ class Signup extends Component {
         .then(response => {
             if (response.code === 1){
                 notification.success({
-                    message: 'You are successfully registered',
-                    description: "But before your exploration, plz head to your mail box to activate your account",
+                    message: '成功',
+                    description: "请检查您的邮箱，根据邮件提示完成注册。",
                 });
                 this.props.history.push("/login");
             }else{
@@ -87,15 +87,14 @@ class Signup extends Component {
                     }
                 })
                 notification.error({
-                    message: 'Registration Failed',
+                    message: '失败',
                     description: '',
                 });
             }
-
         }).catch(error => {
             notification.error({
-                message: 'Something went wrong',
-                description: error.message || 'Sorry! Something went wrong. Please try again!'
+                message: '错误',
+                description: '出错了，请稍后重试。',
             });
         });
     }

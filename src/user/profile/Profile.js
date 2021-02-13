@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {enable2Factor, getUserProfile, resetPassword} from '../../util/APIUtils';
-import {Avatar, Button, notification} from 'antd';
+import {Avatar, Button} from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 import { formatDate } from '../../util/Helpers';
 import LoadingIndicator  from '../../common/LoadingIndicator';
@@ -53,10 +53,6 @@ class Profile extends Component {
     componentDidUpdate(nextProps) {
         if(!this.props.isAuthenticated) {
             this.props.history.push("/login");
-            notification.info({
-                message: 'Polling App',
-                description: "Please login to vote.",
-            });
             return;
         }
         if(this.props.match.params.username !== nextProps.match.params.username) {

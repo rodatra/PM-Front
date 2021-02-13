@@ -22,6 +22,7 @@ import Validation from "../user/signup/Validation";
 import ActivateFailed from "../common/ActivateFailed";
 import ApiShow from "../debug/ApiShow";
 import DebugHistory from "../history/DebugHistory";
+import ChangePass from "../user/signup/ChangePass";
 const { Content } = Layout;
 
 class App extends Component {
@@ -113,6 +114,8 @@ class App extends Component {
 
                 <Route path="/signup" component={Signup}></Route>
 
+                <Route path="/signup" component={Signup}></Route>
+
                 <Route path="/history" component={DebugHistory}></Route>
 
                 <Route path="/activated/:message"
@@ -121,8 +124,8 @@ class App extends Component {
                 <Route path="/activateFailed/:message"
                        render={(props) => <ActivateFailed message={props.match.params.message} {...props} />}/>
 
-                <Route path="/changePass"
-                       render={(props) => <ChangePass {...props} />}/>
+                <Route path="/changePass/:token"
+                       render={(props) => <ChangePass token={props.match.params.token} {...props} />}/>
 
                 <Route path="/registrationConfirm/:token"
                        render={(props) => <Validation source="reg" token={props.match.params.token} {...props} />}></Route>

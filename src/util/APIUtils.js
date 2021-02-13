@@ -84,6 +84,14 @@ export function signup(signupRequest) {
     });
 }
 
+export function changePass(pass) {
+    return request({
+        url: API_BASE_URL + "/user/savePassword",
+        method: 'POST',
+        body: JSON.stringify(pass)
+    });
+}
+
 export function checkUsernameAvailability(username) {
     return request({
         url: API_BASE_URL + "/user/checkUsernameAvailability?username=" + username,
