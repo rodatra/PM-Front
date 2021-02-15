@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {enable2Factor, getUserProfile, resetPassword} from '../../util/APIUtils';
-import {Avatar, Button} from 'antd';
+import {Avatar, Button, Switch} from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 import { formatDate } from '../../util/Helpers';
 import LoadingIndicator  from '../../common/LoadingIndicator';
@@ -14,6 +14,7 @@ class Profile extends Component {
         super(props);
         this.state = {
             user: null,
+            isUsing2FA: false,
             isLoading: false
         }
         this.loadUserProfile = this.loadUserProfile.bind(this);
@@ -28,6 +29,7 @@ class Profile extends Component {
             .then(response => {
                 this.setState({
                     user: response,
+                    isUsing2FA: response.isUsing2FA,
                     isLoading: false
                 });
             }).catch(error => {
@@ -61,12 +63,13 @@ class Profile extends Component {
     }
 
     update2Factor = () => {
-        enable2Factor()
-            .then(response => {
-                this.setState({
-                    user: response,
-                    isLoading: false
-                });
+        enable2Factor(!this.state.isUsing2FA)
+            .then(res => {
+                if (res.code === 1){
+                    this.setState({
+                        isUsing2FA: res,
+                    });
+                }
             }).catch(error => {
             if(error.status === 404) {
                 this.setState({
@@ -140,15 +143,13 @@ class Profile extends Component {
                                     </div>
                                 </div>
                                 <div className="user-summary">
-                                    <Button type="dashed" onClick={() => {
-                                        this.update2Factor();
-                                    }}>
-                                        Enable 2 Factor Auth
-                                    </Button>
+                                    开启二步验证
+                                    <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked={this.state.isUsing2FA} />
+
                                     <Button type="dashed" onClick={() => {
                                         this.changePassword();
                                     }}>
-                                        Change Password
+                                        修改密码
                                     </Button>
                                 </div>
                             </div>

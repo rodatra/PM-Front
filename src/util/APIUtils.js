@@ -156,7 +156,7 @@ export function validatePassToken(token) {
 
 export function enable2Factor(status) {
     return request({
-        url: API_BASE_URL + "/user/update/2fa",
+        url: API_BASE_URL + "/user/update2fa",
         method: 'POST',
         body: JSON.stringify(status)
     });
