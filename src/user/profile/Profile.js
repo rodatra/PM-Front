@@ -142,9 +142,14 @@ class Profile extends Component {
                                         Joined {formatDate(this.state.user.createdAt)}
                                     </div>
                                 </div>
-                                <div className="user-summary">
+                                <div>
                                     开启二步验证
-                                    <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked={this.state.isUsing2FA} />
+                                    <Switch checkedChildren="开启"
+                                            unCheckedChildren="关闭"
+                                            defaultChecked={this.state.isUsing2FA}
+                                            onClick={() => {
+                                                this.update2Factor();
+                                            }}/>
 
                                     <Button type="dashed" onClick={() => {
                                         this.changePassword();
