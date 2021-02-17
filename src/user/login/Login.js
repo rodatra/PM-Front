@@ -64,7 +64,7 @@ class LoginForm extends Component {
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <FormItem>
                     {getFieldDecorator('username', {
-                        rules: [{ required: true, message: 'Please input your email!' }],
+                        rules: [{ required: true, message: '请输入您的邮箱' }],
                     })(
                     <Input 
                         prefix={<Icon type="user" />}
@@ -75,7 +75,7 @@ class LoginForm extends Component {
                 </FormItem>
                 <FormItem>
                 {getFieldDecorator('password', {
-                    rules: [{ required: true, message: 'Please input your Password!' }],
+                    rules: [{ required: true, message: '请输入您的密码' }],
                 })(
                     <Input 
                         prefix={<Icon type="lock" />}
@@ -87,7 +87,7 @@ class LoginForm extends Component {
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('code', {
-                        rules: [{ required: false, message: 'Please input your code!' }],
+                        rules: [{ required: false, message: '请输入您的验证码' }],
                     })(
                         <Input
                             prefix={<Icon type="lock" />}
@@ -98,8 +98,8 @@ class LoginForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
-                    Or <Link to="/signup">register now!</Link>
+                    <Button type="primary" htmlType="submit" size="large" className="login-form-button">登录</Button>
+                    或者 <Link to="/signup">现在注册!</Link>
                 </FormItem>
             </Form>
         );

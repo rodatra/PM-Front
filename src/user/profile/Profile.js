@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {enable2Factor, getUserProfile, resetPassword} from '../../util/APIUtils';
-import {Avatar, Button, Switch} from 'antd';
+import {Avatar, Button, notification, Switch} from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 import { formatDate } from '../../util/Helpers';
 import LoadingIndicator  from '../../common/LoadingIndicator';
@@ -63,35 +63,33 @@ class Profile extends Component {
     }
 
     update2Factor = () => {
-        enable2Factor(!this.state.isUsing2FA)
+        const fc = !this.state.isUsing2FA;
+        enable2Factor(fc)
             .then(res => {
                 if (res.code === 1){
                     this.setState({
-                        isUsing2FA: res,
+                        isUsing2FA: fc,
+                    }, () => {
+                        this.props.history.push(`/activated/${encodeURIComponent(res.data.replace(`%`, "0x0x0"))}`);
                     });
                 }
-            }).catch(error => {
-            if(error.status === 404) {
-                this.setState({
-                    notFound: true,
-                    isLoading: false
-                });
-            } else {
-                this.setState({
-                    serverError: true,
-                    isLoading: false
-                });
-            }
-        });
+            });
     }
 
     changePassword = () => {
         resetPassword(this.state.user.email)
-            .then(response => {
-                this.setState({
-                    user: response,
-                    isLoading: false
-                });
+            .then(res => {
+                if (res.code === 1){
+                    notification.success({
+                        message: '成功',
+                        description: res.msg,
+                    });
+                }else{
+                    notification.error({
+                        message: '错误',
+                        description: res.msg,
+                    });
+                }
             }).catch(error => {
             if(error.status === 404) {
                 this.setState({

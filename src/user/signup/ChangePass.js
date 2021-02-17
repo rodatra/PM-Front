@@ -1,11 +1,8 @@
 import React, {Component} from 'react';
-import {signup, checkUsernameAvailability, checkEmailAvailability, changePass} from '../../util/APIUtils';
+import {changePass} from '../../util/APIUtils';
 import './Signup.css';
-import { Link } from 'react-router-dom';
 
 import {
-    USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH,
-    EMAIL_MAX_LENGTH,
     PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
 } from '../../constants';
 
@@ -46,7 +43,9 @@ class Signup extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const request = {
-            password: this.state.password.value,
+            oldPassword: this.state.password.value,
+            newPassword: this.state.password.value,
+            token: this.props.token,
         };
         changePass(request)
         .then(response => {
@@ -118,8 +117,7 @@ class Signup extends Component {
                                 htmlType="submit" 
                                 size="large" 
                                 className="signup-form-button"
-                                disabled={this.isFormInvalid()}>Sign up</Button>
-                            Already registered? <Link to="/login">Login now!</Link>
+                                disabled={this.isFormInvalid()}>提交</Button>
                         </FormItem>
                     </Form>
                 </div>

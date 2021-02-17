@@ -163,8 +163,7 @@ export function enable2Factor(status) {
 
 export function resetPassword(email) {
     return request({
-        url: API_BASE_URL + "/user/resetPassword",
-        method: 'POST',
-        body: JSON.stringify(email)
+        url: API_BASE_URL + "/user/resetPassword?email=" + email,
+        method: 'GET'
     });
 }

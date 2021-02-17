@@ -214,12 +214,12 @@ class Signup extends Component {
         if(username.length < USERNAME_MIN_LENGTH) {
             return {
                 validateStatus: 'error',
-                errorMsg: `Username is too short (Minimum ${USERNAME_MIN_LENGTH} characters needed.)`
+                errorMsg: `用户名过短 (最小允许 ${USERNAME_MIN_LENGTH} 个字符)`
             }
         } else if (username.length > USERNAME_MAX_LENGTH) {
             return {
                 validationStatus: 'error',
-                errorMsg: `Username is too long (Maximum ${USERNAME_MAX_LENGTH} characters allowed.)`
+                errorMsg: `用户名过短 (最大允许 ${USERNAME_MAX_LENGTH} 个字符)`
             }
         } else {
             return {
@@ -267,7 +267,7 @@ class Signup extends Component {
                     username: {
                         value: usernameValue,
                         validateStatus: 'error',
-                        errorMsg: 'This username is already taken'
+                        errorMsg: '此用户名已被注册'
                     }
                 });
             }
@@ -321,7 +321,7 @@ class Signup extends Component {
                     email: {
                         value: emailValue,
                         validateStatus: 'error',
-                        errorMsg: 'Email already registered'
+                        errorMsg: '邮箱已被注册过'
                     }
                 });
             }
@@ -349,17 +349,17 @@ class Signup extends Component {
         if(password.length > PASSWORD_MAX_LENGTH) {
             return {
                 validateStatus: 'error',
-                errorMsg: `Too Long`
+                errorMsg: `密码过长`
             }
         } else if (password.length < PASSWORD_MIN_LENGTH) {
             return {
                 validateStatus: 'error',
-                errorMsg: `Too Short`
+                errorMsg: `密码过短`
             };
         }else{
             return {
                 validateStatus: 'success',
-                errorMsg: `Validation Passed`
+                errorMsg: `验证通过`
             };
         }
     }
@@ -368,7 +368,7 @@ class Signup extends Component {
         if(password !== this.state.password.value) {
             return {
                 validateStatus: 'error',
-                errorMsg: `Passwords do not match`
+                errorMsg: `密码不匹配`
             }
         } else {
             return {
