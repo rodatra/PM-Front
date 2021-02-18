@@ -29,7 +29,7 @@ class Activated extends Component {
             (this.props.message.startsWith("http")) ? (
                 <Result
                     status="success"
-                    title="Plz use OTP App to save this key"
+                    title="请在手机上使用OTP软件保存此密钥"
                     extra={[
                         <img src={`${decodeURIComponent(this.props.message).replace("0x0x0", `%`)}`} />,
                         <Button type="primary" key="console" onClick={() => this.jump()}>

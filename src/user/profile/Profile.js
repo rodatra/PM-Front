@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {enable2Factor, getUserProfile, resetPassword} from '../../util/APIUtils';
-import {Avatar, Button, notification, Switch} from 'antd';
+import {Avatar, Button, notification, Popover, Switch} from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 import { formatDate } from '../../util/Helpers';
 import LoadingIndicator  from '../../common/LoadingIndicator';
@@ -15,7 +15,8 @@ class Profile extends Component {
         this.state = {
             user: null,
             isUsing2FA: false,
-            isLoading: false
+            isLoading: false,
+            qr: ""
         }
         this.loadUserProfile = this.loadUserProfile.bind(this);
     }
@@ -26,10 +27,10 @@ class Profile extends Component {
         });
 
         getUserProfile(username)
-            .then(response => {
+            .then(res => {
                 this.setState({
-                    user: response,
-                    isUsing2FA: response.isUsing2FA,
+                    user: res.data,
+                    isUsing2FA: res.data.using2FA,
                     isLoading: false
                 });
             }).catch(error => {
@@ -60,7 +61,7 @@ class Profile extends Component {
         if(this.props.match.params.username !== nextProps.match.params.username) {
             this.loadUserProfile(nextProps.match.params.username);
         }
-    }
+    }getUserProfile
 
     update2Factor = () => {
         const fc = !this.state.isUsing2FA;
@@ -69,8 +70,7 @@ class Profile extends Component {
                 if (res.code === 1){
                     this.setState({
                         isUsing2FA: fc,
-                    }, () => {
-                        this.props.history.push(`/activated/${encodeURIComponent(res.data.replace(`%`, "0x0x0"))}`);
+                        qr: res.data
                     });
                 }
             });
@@ -122,6 +122,10 @@ class Profile extends Component {
             textAlign: 'center'
         };
 
+        const content = (
+            <img src={this.state.qr} />
+        );
+
         return (
             <div className="profile">
                 {
@@ -148,7 +152,11 @@ class Profile extends Component {
                                             onClick={() => {
                                                 this.update2Factor();
                                             }}/>
-
+                                    <Popover content={content} title="请使用OTP软件保存此密钥">
+                                        <Button type="primary" type="dashed" disabled={this.state.isUsing2FA}>
+                                            获取2FA密钥
+                                        </Button>
+                                    </Popover>
                                     <Button type="dashed" onClick={() => {
                                         this.changePassword();
                                     }}>
