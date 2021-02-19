@@ -54,7 +54,7 @@ class Signup extends Component {
                     message: '成功',
                     description: "密码已修改，请重新登录。",
                 });
-                this.props.history.push("/logout");
+                this.props.onLogout();
             }else{
                 notification.error({
                     message: '错误',

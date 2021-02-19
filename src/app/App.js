@@ -50,12 +50,14 @@ class App extends Component {
       isLoading: true
     });
     getCurrentUser()
-    .then(response => {
-      this.setState({
-        currentUser: response,
-        isAuthenticated: true,
-        isLoading: false
-      });
+    .then(res => {
+      if (res.code === 1){
+        this.setState({
+          currentUser: res.data,
+          isAuthenticated: true,
+          isLoading: false
+        });
+      }
     }).catch(error => {
       this.setState({
         isLoading: false
@@ -114,8 +116,6 @@ class App extends Component {
 
                 <Route path="/signup" component={Signup}></Route>
 
-                <Route path="/signup" component={Signup}></Route>
-
                 <Route path="/history" component={DebugHistory}></Route>
 
                 <Route path="/activated/:message"
@@ -125,7 +125,7 @@ class App extends Component {
                        render={(props) => <ActivateFailed message={props.match.params.message} {...props} />}/>
 
                 <Route path="/changePass/:token"
-                       render={(props) => <ChangePass token={props.match.params.token} {...props} />}/>
+                       render={(props) => <ChangePass token={props.match.params.token} onLogout={this.handleLogout} {...props} />}/>
 
                 <Route path="/registrationConfirm/:token"
                        render={(props) => <Validation source="reg" token={props.match.params.token} {...props} />}></Route>
