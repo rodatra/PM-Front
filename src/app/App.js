@@ -69,7 +69,7 @@ class App extends Component {
     this.loadCurrentUser();
   }
 
-  handleLogout(redirectTo="/", notificationType="success", description="You're successfully logged out.") {
+  handleLogout(redirectTo="/", notificationType="success", description="已退出登录") {
     localStorage.removeItem(ACCESS_TOKEN);
 
     this.setState({
@@ -88,7 +88,7 @@ class App extends Component {
   handleLogin() {
     notification.success({
       message: 'R Debugger',
-      description: "You're successfully logged in.",
+      description: "登陆成功",
     });
     this.loadCurrentUser();
     this.props.history.push("/");

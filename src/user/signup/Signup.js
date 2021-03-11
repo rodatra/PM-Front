@@ -29,7 +29,7 @@ class Signup extends Component {
             matchingPassword: {
                 value: ''
             },
-            enableTwoStep: false
+            isUsing2FA: false
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.onPassChange = this.onPassChange.bind(this);
@@ -40,8 +40,9 @@ class Signup extends Component {
     }
 
     onTwoStep = () => {
+        const current = this.state.isUsing2FA;
         this.setState({
-            enableTwoStep: true
+            isUsing2FA: !current
         })
     };
 
@@ -65,7 +66,7 @@ class Signup extends Component {
             username: this.state.username.value,
             email: this.state.email.value,
             password: this.state.password.value,
-            twoStep: this.state.enableTwoStep
+            using2FA: this.state.isUsing2FA
         };
         signup(signupRequest)
         .then(response => {
@@ -109,38 +110,38 @@ class Signup extends Component {
     render() {
         return (
             <div className="signup-container">
-                <h1 className="page-title">Sign Up</h1>
+                <h1 className="page-title">注册</h1>
                 <div className="signup-content">
                     <Form onSubmit={this.handleSubmit} className="signup-form">
-                        <FormItem label="Username"
+                        <FormItem label="用户名"
                             hasFeedback
                             validateStatus={this.state.username.validateStatus}
                             help={this.state.username.errorMsg}>
                             <Input 
                                 size="large"
-                                name="username" 
+                                name="username"
                                 autoComplete="off"
-                                placeholder="A unique username"
+                                placeholder="昵称"
                                 value={this.state.username.value} 
                                 onBlur={this.validateUsernameAvailability}
                                 onChange={(event) => this.handleInputChange(event, this.validateUsername)} />    
                         </FormItem>
                         <FormItem 
-                            label="Email"
+                            label="邮箱"
                             hasFeedback
                             validateStatus={this.state.email.validateStatus}
                             help={this.state.email.errorMsg}>
                             <Input 
                                 size="large"
-                                name="email" 
+                                name="email"
                                 type="email" 
                                 autoComplete="off"
-                                placeholder="Your email"
+                                placeholder="邮箱"
                                 value={this.state.email.value} 
                                 onBlur={this.validateEmailAvailability}
                                 onChange={(event) => this.handleInputChange(event, this.validateEmail)} />    
                         </FormItem>
-                        <FormItem label="Password"
+                        <FormItem label="密码"
                                   // hasFeedback
                                   validateStatus={this.state.password.validateStatus}
                                   help={this.state.password.errorMsg}>
@@ -150,7 +151,7 @@ class Signup extends Component {
                             />
                         </FormItem >
                         <FormItem
-                            label="Confirm Password"
+                            label="确认密码"
                             validateStatus={this.state.matchingPassword.validateStatus}
                             help={this.state.matchingPassword.errorMsg}>
                             <Input
@@ -158,20 +159,20 @@ class Signup extends Component {
                                 name="matchingPassword"
                                 type="password"
                                 autoComplete="off"
-                                placeholder="Reenter Plz"
+                                placeholder="请再输一遍密码"
                                 value={this.state.matchingPassword.value}
                                 onChange={(event) => this.handleInputChange(event, this.validateMatchingPassword)} />
                         </FormItem>
                         <FormItem>
-                            <Checkbox onChange={this.onTwoStep}>Enable Two Step Verification</Checkbox>
+                            <Checkbox onChange={() => {this.onTwoStep()}}>开启二步验证</Checkbox>
                         </FormItem>
                         <FormItem>
                             <Button type="primary" 
                                 htmlType="submit" 
                                 size="large" 
                                 className="signup-form-button"
-                                disabled={this.isFormInvalid()}>Sign up</Button>
-                            Already registered? <Link to="/login">Login now!</Link>
+                                disabled={this.isFormInvalid()}>注册</Button>
+                            已经注册过? <Link to="/login">现在登录!</Link>
                         </FormItem>
                     </Form>
                 </div>

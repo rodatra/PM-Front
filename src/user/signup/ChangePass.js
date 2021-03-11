@@ -6,7 +6,7 @@ import {
     PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
 } from '../../constants';
 
-import {Form, Input, Button, notification, Checkbox} from 'antd';
+import {Form, Input, Button, notification} from 'antd';
 import {PasswordInput} from "antd-password-input-strength";
 const FormItem = Form.Item;
 
@@ -99,7 +99,7 @@ class Signup extends Component {
                                 name="matchingPassword"
                                 type="password"
                                 autoComplete="off"
-                                placeholder="Reenter Plz"
+                                placeholder="请再输一遍"
                                 value={this.state.matchingPassword.value}
                                 onChange={(event) => this.handleInputChange(event, this.validateMatchingPassword)} />
                         </FormItem>

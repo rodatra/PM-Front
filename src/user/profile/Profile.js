@@ -21,6 +21,19 @@ class Profile extends Component {
         this.loadUserProfile = this.loadUserProfile.bind(this);
     }
 
+    update2Factor = () => {
+        const fc = !this.state.isUsing2FA;
+        enable2Factor(fc)
+            .then(res => {
+                if (res.code === 1) {
+                    this.setState({
+                        isUsing2FA: fc,
+                        qr: res.data
+                    });
+                }
+            });
+    }
+
     loadUserProfile(username) {
         this.setState({
             isLoading: true
@@ -33,6 +46,15 @@ class Profile extends Component {
                         user: res.data,
                         isUsing2FA: res.data.using2FA,
                         isLoading: false
+                    }, () => {
+                        enable2Factor(this.state.isUsing2FA)
+                            .then(res => {
+                                if (res.code === 1) {
+                                    this.setState({
+                                        qr: res.data
+                                    });
+                                }
+                            });
                     });
                 }
             }).catch(error => {
@@ -63,19 +85,6 @@ class Profile extends Component {
         if (this.props.match.params.username !== nextProps.match.params.username) {
             this.loadUserProfile(nextProps.match.params.username);
         }
-    }
-
-    update2Factor = () => {
-        const fc = !this.state.isUsing2FA;
-        enable2Factor(fc)
-            .then(res => {
-                if (res.code === 1) {
-                    this.setState({
-                        isUsing2FA: fc,
-                        qr: res.data
-                    });
-                }
-            });
     }
 
     changePassword = () => {
