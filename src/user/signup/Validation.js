@@ -31,9 +31,9 @@ class Validation extends Component {
         validateLocToken(token)
             .then(response => {
                 if (response.code === 1) {
-                    this.props.history.push(`/activated/${response.msg}`);
+                    this.props.history.push(`/activated/${response.data}`);
                 }else{
-                    this.props.history.push(`/activateFailed/${response.msg}`);
+                    this.props.history.push(`/activateFailed/${response.data}`);
                 }
             }).catch(error => {
 
