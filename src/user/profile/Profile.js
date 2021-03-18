@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {enable2Factor, getUserProfile, resetPassword} from '../../util/APIUtils';
-import {Avatar, Button, notification, Popover, Switch} from 'antd';
+import {Avatar, Button, Typography, notification, Popover, Switch} from 'antd';
 import {getAvatarColor} from '../../util/Colors';
 import {formatDate} from '../../util/Helpers';
 import LoadingIndicator from '../../common/LoadingIndicator';
@@ -8,6 +8,8 @@ import './Profile.css';
 import NotFound from '../../common/NotFound';
 import ServerError from '../../common/ServerError';
 import DebugHistory from "../../history/DebugHistory";
+
+const { Text } = Typography;
 
 class Profile extends Component {
     constructor(props) {
@@ -157,8 +159,9 @@ class Profile extends Component {
                                     </div>
                                 </div>
                                 <div>
-                                    开启二步验证
+                                    <Text style={{marginLeft: 40, marginRight: 10}}>二步验证</Text>
                                     <Switch checkedChildren="开启"
+                                            style={{marginRight: 10}}
                                             unCheckedChildren="关闭"
                                             defaultChecked={this.state.isUsing2FA}
                                             onClick={() => {
@@ -171,11 +174,9 @@ class Profile extends Component {
                                             </Button>
                                         </Popover>)
                                         :
-                                        (<Button type="primary" type="dashed">
-                                            获取2FA密钥
-                                        </Button>)
+                                        (<Text></Text>)
                                     }
-                                    <Button type="dashed" onClick={() => {
+                                    <Button type="dashed" style={{float: 'right'}} onClick={() => {
                                         this.changePassword();
                                     }}>
                                         修改密码
@@ -183,7 +184,7 @@ class Profile extends Component {
                                 </div>
                             </div>
                             <div className="user-poll-details">
-                                <DebugHistory/>
+                                <DebugHistory that={this}/>
                             </div>
                         </div>
                     ) : null

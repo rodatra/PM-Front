@@ -78,7 +78,11 @@ class DebugHistory extends PureComponent {
     }
 
     restore = (postParam) => {
-        this.props.history.push("/", this.state.data[postParam]);
+        if (this.props.that){
+            this.props.that.props.history.push("/", this.state.data[postParam]);
+        }else{
+            this.props.history.push("/", this.state.data[postParam]);
+        }
     }
 
     render() {

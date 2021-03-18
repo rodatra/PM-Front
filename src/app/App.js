@@ -80,14 +80,14 @@ class App extends Component {
     this.props.history.push(redirectTo);
     
     notification[notificationType]({
-      message: 'R Debugger',
+      message: 'Liv',
       description: description,
     });
   }
 
   handleLogin() {
     notification.success({
-      message: 'R Debugger',
+      message: 'Liv',
       description: "登陆成功",
     });
     this.loadCurrentUser();

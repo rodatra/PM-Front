@@ -72,7 +72,6 @@ class ApiShow extends PureComponent {
     componentDidMount() {
         if (this.props.location.state){
             let ob = JSON.parse(this.props.location.state.jsonParam)
-            console.log(ob)
             this.setState({
                 baseUrl: ob.url,
             },() => {
@@ -82,7 +81,6 @@ class ApiShow extends PureComponent {
     }
 
     onBodyRaw = (newValue) => {
-        console.log(newValue)
         this.setState({postParam: newValue}, () => {
             this.changePostParam(newValue)
         })
@@ -100,7 +98,6 @@ class ApiShow extends PureComponent {
         this.setState({
             baseUrl: e.target.value.replace(this.state.append,""),
         },() => {
-            console.log(this.state.baseUrl)
         })
     }
 

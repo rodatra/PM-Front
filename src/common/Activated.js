@@ -24,7 +24,6 @@ class Activated extends Component {
     }
 
     render() {
-        console.log(this.props.message)
         return (
             (this.props.message.startsWith("http")) ? (
                 <Result

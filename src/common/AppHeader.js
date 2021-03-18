@@ -55,7 +55,7 @@ class AppHeader extends Component {
             <Header className="app-header">
             <div className="container">
               <div className="app-title" >
-                <Link to="/">R Debugger</Link>
+                <Link to="/">Liv</Link>
               </div>
               <Menu
                 className="app-menu"
